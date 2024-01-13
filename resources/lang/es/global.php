@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'site_title' => 'Sonia Alriols',
+    'site_title' => 'Affiliates',
     'login_email' => 'Email',
     'login_password' => 'Password',
 ];
