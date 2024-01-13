@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, MustVerifyEmail;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'code',
         'profile_img',
         'email',
         'password',
@@ -63,5 +63,16 @@ class User extends Authenticatable
     public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function owned_shops(): \Illuminate\Database\Eloquent\Relations\hasManyThrough
+    {
+        return $this->hasManyThrough(Shop::class, ShopRole::class, 'user_id', 'id', 'id', 'shop_id')
+            ->whereIn('shop_roles.role', ShopRole::ROLES);
+    }
+
+    public function shops(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Shop::class, 'users_shops', 'user_id', 'shop_id');
     }
 }

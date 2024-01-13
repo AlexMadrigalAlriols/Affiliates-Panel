@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -63,8 +64,22 @@ class RegisterController extends Controller
     {
         return User::create([
             'first_name'    => $data['first_name'],
+            'last_name'    => $data['last_name'],
             'email'    => $data['email'],
+            'code'  => $this->generateRandomString(6),
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    private function generateRandomString($length)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
     }
 }

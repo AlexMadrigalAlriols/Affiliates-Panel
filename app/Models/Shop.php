@@ -38,9 +38,14 @@ class Shop extends Model
     {
         return env('APP_URL') . '/' . $this->subdomain;
     }
-    
+
     public function shopLevels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(ShopLevel::class);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('subdomain', $value)->firstOrFail();
     }
 }

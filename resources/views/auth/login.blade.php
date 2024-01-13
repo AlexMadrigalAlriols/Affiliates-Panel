@@ -24,45 +24,67 @@
 
                 <div class="card bg-glass text-white">
                   <div class="card-body px-4 py-5 px-md-5">
-                    <h2><i class="bi bi-box-arrow-in-right"></i> Login</h2>
+                    <h2>Login</h2>
                     <hr>
+                    <div>
+                        <!-- Register buttons -->
+                        <div class="text-center">
+                            <h5 class="fw-normal pb-3 mb-2 text-white" >Sign in with:</h5>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-facebook-f"></i>
+                            </button>
 
-                      <!-- Register buttons -->
-                      <div class="text-center">
-                        <p>Login with:</p>
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                          <i class="fab fa-facebook-f"></i>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-google"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                            <i class="fab fa-twitter"></i>
+                            </button>
+
+                            <div class="divider align-items-center my-4">
+                                <p class="text-center fw-bold mx-3 mb-0 text-white">Or</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="{{ route('login') }}" method="POST">
+                        @csrf
+                        <!-- Email input -->
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" autofocus placeholder="{{ trans('global.login_email') }}" name="email" value="{{ old('email', null) }}">
+                            <label for="email">Email address</label>
+
+                            @if ($errors->has('email'))
+                              <div class="invalid-feedback">
+                                {{ $errors->first('email') }}
+                              </div>
+                            @endif
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-floating">
+                            <input type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" id="password" name="password" placeholder="{{ trans('global.login_password') }}">
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="checkbox checkbox-css m-b-30 row mt-3 d-inline-block">
+                          <div class="icheck-primary">
+                            <input type="checkbox" name="remember" id="remember">
+                            <label for="remember">{{ trans('global.remember_me') }}</label>
+                          </div>
+                        </div>
+
+                        <!-- Forgot Password link -->
+                        <div class="justify-content-end mb-3 d-inline-block mt-3" style="float: right;">
+                            <a href="#" class="ms-auto">Forgot Password?</a>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-block mb-3 w-100 mt-4">
+                            <i class="bi bi-box-arrow-in-right"></i> {{ trans('global.login') }}
                         </button>
 
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                          <i class="fab fa-google"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                          <i class="fab fa-twitter"></i>
-                        </button>
-
-                        <button type="button" class="btn btn-link btn-floating mx-1">
-                          <i class="fab fa-github"></i>
-                        </button>
-                      </div>
-                    <form>
-                      <!-- Email input -->
-                      <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                        <label for="floatingInput">Email address</label>
-                      </div>
-
-                      <!-- Password input -->
-                      <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                      </div>
-
-                      <!-- Submit button -->
-                      <button type="submit" class="btn btn-primary btn-block mb-4 w-100">
-                        Login
-                      </button>
+                        <p class="text-center">Not have an account? <a href="#">Register here</a></p>
                     </form>
                   </div>
                 </div>

@@ -1,5 +1,6 @@
 body, html {
     height: 100%;
+    overflow-y: hidden !important;
 }
 .background-radial-gradient {
     background-color: hsl(218, 41%, 15%);
@@ -9,24 +10,24 @@ body, html {
         hsl(218, 41%, 20%) 75%,
         hsl(218, 41%, 19%) 80%,
         transparent 100%),
-      radial-gradient(1250px circle at 100% 100%,
+        radial-gradient(1250px circle at 100% 100%,
         hsl(218, 41%, 45%) 15%,
         hsl(218, 41%, 30%) 35%,
         hsl(218, 41%, 20%) 75%,
         hsl(218, 41%, 19%) 80%,
         transparent 100%);
-  }
+}
 
-  #radius-shape-1 {
+#radius-shape-1 {
     height: 220px;
     width: 220px;
     top: -60px;
     left: -130px;
     background: radial-gradient(#44006b, #ad1fff);
     overflow: hidden;
-  }
+}
 
-  #radius-shape-2 {
+#radius-shape-2 {
     border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
     bottom: -60px;
     right: -110px;
@@ -34,20 +35,28 @@ body, html {
     height: 300px;
     background: radial-gradient(#44006b, #ad1fff);
     overflow: hidden;
-  }
+}
 
-  .bg-glass {
+.bg-glass {
     background-color: hsla(0, 0%, 19%, 0.9) !important;
     backdrop-filter: saturate(200%) blur(25px);
-  }
+}
 
-  .background-radial-gradient {
+.background-radial-gradient {
     height: 100% !important;
     min-height: 100% !important;
-  }
+}
 
-  .form-floating input {
+.form-floating input {
     background-color: rgba(0, 0, 0, 0.5); /* Fondo negro medio transparente */
     color: white; /* Cambia el color del texto si es necesario */
     border: 1px solid white; /* Añadir un borde blanco opcional */
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
 }

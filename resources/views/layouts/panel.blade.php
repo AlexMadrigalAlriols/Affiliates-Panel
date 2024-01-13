@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="locale" content="{{ app()->getLocale() }}">
 
-    <title>{{ trans('global.site_title') }} | {{ $section }}</title>
+    <title>{{ $shop->name }} | {{ $section }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -29,35 +29,40 @@
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
             <div>
-                <a href="{{route('dashboard.main')}}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">AffiliatesHub</span></a>
+                <a href="{{ route('dashboard.main') }}" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">AffiliatesHub</span></a>
                 <div class="nav_list">
                     <hr>
-                    <a href="#" class="nav_link {{ $section == 'Search' ? 'active' : ''}}">
-                        <i class='bx bx-search nav_icon'></i>
-                        <span class="nav_name">Search</span>
+                    <a href="{{ route('dashboard.main') }}" class="nav_link mb-0 py-1">
+                        <i class='bx bx-left-arrow-alt nav_icon' ></i>
+                        <span class="nav_name">Back to Home</span>
                     </a>
-                    <a href="/dashboard" class="nav_link {{ $section == 'Dashboard' ? 'active' : ''}}">
-                        <i class='bx bx-grid-alt nav_icon'></i>
-                        <span class="nav_name">Dashboard</span>
+                    <hr>
+                    <a href="{{ route('dashboard.shop.panel.overview', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Dashboard' ? 'active' : ''}}">
+                        <i class='bx bx-home-alt nav_icon'></i>
+                        <span class="nav_name">Overview</span>
+                    </a>
+                    <a href="{{ route('dashboard.shop.panel.members', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Members' ? 'active' : ''}}">
+                        <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">Members</span>
                     </a>
                     <a href="#" class="nav_link">
-                        <i class='bx bx-chat nav_icon'></i>
-                        <span class="nav_name">Messages</span>
+                        <i class='bx bx-notepad nav_icon'></i>
+                        <span class="nav_name">Ticket History</span>
                     </a>
-                    <a href="#" class="nav_link {{ $section == 'Settings' ? 'active' : ''}}">
+                    <a href="#" class="nav_link">
+                        <i class='bx bx-mail-send nav_icon' ></i>
+                        <span class="nav_name">Announces</span>
+                    </a>
+                    <a href="{{ route('dashboard.shop.panel.configuration', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Configuration' ? 'active' : ''}}">
                         <i class='bx bx-cog nav_icon'></i>
-                        <span class="nav_name">Settings</span>
+                        <span class="nav_name">Configuration</span>
                     </a>
                 </div>
             </div>
-
-            <div>
-                <hr>
-                <a href="{{route('logout')}}" class="nav_link">
-                    <i class='bx bx-log-out nav_icon'></i>
-                    <span class="nav_name">Sign Out</span>
-                </a>
-            </div>
+            <a href="/logout" class="nav_link">
+                <i class='bx bx-log-out nav_icon'></i>
+                <span class="nav_name">SignOut</span>
+            </a>
         </nav>
     </div>
     <div class="content height-100">

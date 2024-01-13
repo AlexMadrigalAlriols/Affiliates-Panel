@@ -1,0 +1,68 @@
+body {
+    background-color: #242424 !important;
+}
+
+.content {
+    padding: 2rem;
+}
+
+.title-container {
+    margin-bottom: 2rem;
+}
+
+/* Shop Cards */
+
+.shop-card {
+    width: 20rem;
+    margin: 1rem;
+}
+
+.img-shop-card {
+    height: 200px;
+}
+
+/* Qr Card */
+.qr-card {
+    width: 25rem;
+    align-items: center;
+    align-content: center;
+}
+
+.qr-img {
+    width: 20rem;
+    margin-bottom: 1rem;
+    border-color: black;
+    border-width: 6px;
+    border-style: solid;
+    padding: 1rem;
+}
+
+.fixed-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(90px, 1fr)); /* Columnas automáticas */
+    gap: 10px; /* Espacio entre los íconos */
+    justify-content: center;
+}
+
+.icon-grid.show {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important; /* Columnas automáticas */
+}
+
+.icon {
+    text-align: center;
+    font-size: 24px;
+    border-right: 1px solid #ddd;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.icon:last-child {
+    border-right: none; /* Eliminar la línea separadora en el último ícono */
+}
