@@ -129,6 +129,25 @@ body {
     height: calc(100vh - var(--header-height) - 1rem);
 }
 
+.nav-pills .nav_link {
+    color: black !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 0 !important;
+}
+.nav-pills .nav_link.active {
+    color: rgba(0, 0, 0, 0.726) !important;
+    background-color: rgba(143, 143, 143, 0.144);
+}
+.nav-pills .nav_link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 2px;
+    height: 32px;
+    background-color: grey;
+}
+
 /* PC */
 @media screen and (min-width: 768px) {
     body {

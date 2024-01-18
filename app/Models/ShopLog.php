@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopRole extends Model
+class ShopLog extends Model
 {
     use HasFactory;
 
-    const ROLES = ['owner', 'admin', 'staff'];
+    const TYPES = ['delete', 'create', 'edit', 'no-type'];
 
     protected $fillable = [
+        'type',
+        'message',
         'user_id',
         'shop_id',
-        'role',
         'created_at',
         'updated_at'
     ];

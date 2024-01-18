@@ -13,6 +13,7 @@ class Shop extends Model
     protected $fillable = [
         'name',
         'subdomain',
+        'description',
         'config',
         'created_at',
         'updated_at',
@@ -42,6 +43,26 @@ class Shop extends Model
     public function shopLevels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(ShopLevel::class);
+    }
+
+    public function shopCustomers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_shops', 'shop_id', 'user_id');
+    }
+
+    public function shopTicketHistory(): \Illuminate\Database\Eloquent\Relations\hasMany
+    {
+        return $this->hasMany(UserPointsHistory::class);
+    }
+
+    public function shopRoles(): \Illuminate\Database\Eloquent\Relations\hasMany
+    {
+        return $this->hasMany(ShopRole::class);
+    }
+
+    public function shopLogs(): \Illuminate\Database\Eloquent\Relations\hasMany
+    {
+        return $this->hasMany(ShopLog::class);
     }
 
     public function resolveRouteBinding($value, $field = null)

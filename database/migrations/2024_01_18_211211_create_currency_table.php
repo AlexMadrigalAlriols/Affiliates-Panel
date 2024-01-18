@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_points_histories', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
-            $table->string('import')->default(0);
+            $table->string('iso_code')->unique();
+            $table->string('name');
+            $table->string('symbol');
+            $table->integer('decimals');
+            $table->integer('precision');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_points_histories');
+        Schema::dropIfExists('currencies');
     }
 };

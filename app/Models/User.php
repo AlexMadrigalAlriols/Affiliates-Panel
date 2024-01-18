@@ -73,6 +73,6 @@ class User extends Authenticatable
 
     public function shops(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Shop::class, 'users_shops', 'user_id', 'shop_id');
+        return $this->belongsToMany(Shop::class, 'users_shops', 'user_id', 'shop_id')->where('active', 1);
     }
 }

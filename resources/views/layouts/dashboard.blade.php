@@ -65,9 +65,9 @@
             @yield('content')
         </div>
     </div>
-    @yield('scripts')
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+<script src="{{ asset('js/main.js')}}"></script>
 <script>
     $(document).ready(function() {
         const showNavbar = (toggleId, navId, bodyId, headerId) => {
@@ -95,5 +95,5 @@
         showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
     });
 </script>
-
+@yield('scripts')
 </html>

@@ -15,8 +15,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     @yield('styles')
 </head>
 
@@ -41,12 +44,12 @@
                         <i class='bx bx-home-alt nav_icon'></i>
                         <span class="nav_name">Overview</span>
                     </a>
-                    <a href="{{ route('dashboard.shop.panel.members', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Members' ? 'active' : ''}}">
+                    <a href="{{ route('dashboard.shop.panel.customers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Customers' ? 'active' : ''}}">
                         <i class='bx bx-user nav_icon'></i>
                         <span class="nav_name">Members</span>
                     </a>
-                    <a href="#" class="nav_link">
-                        <i class='bx bx-notepad nav_icon'></i>
+                    <a href="{{ route('dashboard.shop.panel.tickets', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Tickets' ? 'active' : ''}}">
+                        <i class='bx bx-receipt nav_icon'></i>
                         <span class="nav_name">Ticket History</span>
                     </a>
                     <a href="#" class="nav_link">
@@ -59,10 +62,6 @@
                     </a>
                 </div>
             </div>
-            <a href="/logout" class="nav_link">
-                <i class='bx bx-log-out nav_icon'></i>
-                <span class="nav_name">SignOut</span>
-            </a>
         </nav>
     </div>
     <div class="content height-100">
@@ -70,35 +69,14 @@
             @yield('content')
         </div>
     </div>
-    @yield('scripts')
+
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
-<script>
-    $(document).ready(function() {
-        const showNavbar = (toggleId, navId, bodyId, headerId) => {
-            const toggle = $(`#${toggleId}`),
-                nav = $(`#${navId}`),
-                bodypd = $(`#${bodyId}`),
-                headerpd = $(`#${headerId}`);
-
-            // Validate that all variables exist
-            if (toggle.length && nav.length && bodypd.length && headerpd.length) {
-                toggle.on('click', () => {
-                    // show navbar
-                    nav.toggleClass('show');
-                    // change icon
-                    toggle.toggleClass('bx-x');
-                    // add padding to body
-                    bodypd.toggleClass('body-pd');
-                    // add padding to header
-                    headerpd.toggleClass('header-pd');
-                    headerpd.toggleClass('body-pd');
-                });
-            }
-        };
-
-        showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
-    });
-</script>
-
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{{ asset('js/select2.full.min.js')}}"></script>
+<script src="{{ asset('js/main.js')}}"></script>
+@yield('scripts')
 </html>

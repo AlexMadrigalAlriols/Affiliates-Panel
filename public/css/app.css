@@ -66,3 +66,11 @@ body {
 .icon:last-child {
     border-right: none; /* Eliminar la línea separadora en el último ícono */
 }
+
+.pull-right {
+    float: right !important;
+}
+
+.config-header button{
+    margin-top: -0.5rem;
+}
