@@ -10,7 +10,7 @@
 
     <div class="card">
         <div class="card-body p-4">
-            <table id="memebers-datatable" class="table table-striped table-hover">
+            <table id="tickets-datatable" class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -21,14 +21,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($shop->shopTicketHistory as $ticket)
+                    @foreach ($tickets as $ticket)
                         <tr>
-                            <td>{{ $ticket->id }}</td>
+                            <td></td>
                             <td>{{ $ticket->user->fullName }} ({{$ticket->user->code}})</td>
-                            <td>{{ $ticket->import }} €</td>
+                            <td>{{ $ticket->valueHumanString }}</td>
                             <td>{{ $ticket->created_at }}</td>
                             <td>
-                                <button class="btn btn-danger"><i class='bx bx-x-circle align-middle' ></i></button>
+                                @if (!$ticket->trashed())
+                                    <a class="btn btn-danger" href="{{route('dashboard.shop.panel.tickets.return', ['shop' => $shop->subdomain, 'ticket' => $ticket->id])}}">
+                                        <i class='bx bx-x-circle align-middle' ></i>
+                                    </a>
+                                @else
+                                    <span class="badge rounded-pill text-bg-danger">Returned</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -43,7 +49,9 @@
 @parent
 <script>
     $(document).ready(function() {
-        new DataTable('#memebers-datatable');
+        $('#tickets-datatable').dataTable({
+            "order": [[3, 'desc']]
+        });
     });
 </script>
 @endsection

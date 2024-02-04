@@ -6,22 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopLevel extends Model
+class Currency extends Model
 {
-    use HasFactory, SoftDeletes;
-
-    const TYPES = [
-        'LEVEL',
-        'REWARD'
-    ];
+    use SoftDeletes, HasFactory;
 
     protected $fillable = [
-        'shop_id',
-        'level',
-        'reward',
+        'iso_code',
+        'name',
+        'symbol',
+        'decimals',
+        'precision',
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $dates = [
@@ -29,9 +26,4 @@ class ShopLevel extends Model
         'updated_at',
         'deleted_at',
     ];
-
-    public function shop(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Shop::class);
-    }
 }

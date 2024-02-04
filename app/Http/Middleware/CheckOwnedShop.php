@@ -12,7 +12,10 @@ class CheckOwnedShop
     {
         $user = Auth::user();
 
-        if (!$user->owned_shops()->where('subdomain', $request->route('shop')->subdomain)->exists()) {
+        if (!$user->owned_shops()->where(
+            'subdomain', is_string($request->route('shop'))
+                ? $request->route('shop') : $request->route('shop')->subdomain)->exists()
+        ) {
             return redirect()->route('dashboard.main');
         }
 

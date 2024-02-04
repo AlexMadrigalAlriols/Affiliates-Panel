@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shops', function (Blueprint $table) {
-            $table->foreignId('currency_id')->constrained()->onDelete('cascade')->after('subdomain')->default(1);
+            $table->foreignId('currency_id')->after('subdomain')->constrained()->onDelete('cascade')->default(1);
         });
 
         Schema::table('user_points_histories', function (Blueprint $table) {
-            $table->foreignId('currency_id')->constrained()->onDelete('cascade')->after('import');
+            $table->foreignId('currency_id')->after('import')->constrained()->onDelete('cascade');
             $table->softDeletes();
         });
     }

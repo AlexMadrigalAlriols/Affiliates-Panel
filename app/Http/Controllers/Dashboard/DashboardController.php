@@ -14,4 +14,12 @@ class DashboardController extends Controller
 
         return view('dashboard/main', compact('shops', 'owned_shops'));
     }
+
+    public function paychecksIndex(): \Illuminate\Contracts\View\View
+    {
+        $user = Auth::user();
+        $paychecks = $user->paychecks;
+
+        return view('dashboard/paychecks', compact('paychecks'));
+    }
 }

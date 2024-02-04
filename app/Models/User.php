@@ -75,4 +75,18 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Shop::class, 'users_shops', 'user_id', 'shop_id')->where('active', 1);
     }
+
+    public function paychecks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(PayCheck::class);
+    }
+
+    public function getLevelOnShop(Shop $shop)
+    {
+        $user_level = UserLevel::where('user_id', $this->id)
+            ->where('shop_id', $shop->id)
+            ->first();
+
+        return $user_level ? $user_level->shopLevel->level : 0;
+    }
 }

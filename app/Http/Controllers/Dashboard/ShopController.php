@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Dashboard;
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\UpdateRequest;
+use App\Models\Currency;
 use App\Models\Shop;
+use App\Models\ShopLevel;
 use App\Models\ShopRole;
+use App\Models\User;
 use App\UseCases\Shop\UpdateUseCase;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -31,17 +34,14 @@ class ShopController extends Controller
     public function shopConfig(Shop $shop)
     {
         $roles = ShopRole::ROLES;
+        $types = ShopLevel::TYPES;
+        $currencies = Currency::all();
 
-        return view('dashboard.shop.panel.configuration', compact('shop', 'roles'));
-    }
-
-    public function ticketsList(Shop $shop)
-    {
-        return view('dashboard.shop.panel.tickets', compact('shop'));
+        return view('dashboard.shop.panel.configuration', compact('shop', 'roles', 'currencies', 'types'));
     }
 
     public function generateShopQr(Shop $shop) {
-        $url = url($shop->subdomain);
+        $url = route('dashboard.user.scan.qr', ['shop' => $shop->subdomain, 'user' => auth()->user()->id]);
 
         $qr = QrCode::size(500)->generate($url);
         try {
@@ -51,11 +51,16 @@ class ShopController extends Controller
         }
     }
 
+    public function scanQrTicket(Shop $shop, User $user) {
+        return view('dashboard.shop.panel.tickets.create', compact('shop', 'user'));
+    }
+
     public function update(UpdateRequest $request, Shop $shop) {
         $useCase = new UpdateUseCase(
             $shop,
             $request->input('name'),
             $request->input('subdomain'),
+            Currency::findOrFail($request->input('currency_id')),
             $request->input('description') ?? ''
         );
         $useCase->action();

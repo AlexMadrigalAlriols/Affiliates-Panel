@@ -13,7 +13,7 @@
                 <img src="{{ route('dashboard.shop.generate.qr', ['shop' => $shop->subdomain]) }}" alt="Código QR" class="qr-img img-fluid">
                 <p class="h3"><b>{{ auth()->user()->code }}</b></p>
                 <p class="h4">{{ auth()->user()->fullName }}</p>
-                <p class="h5">Nivel 5</p>
+                <p class="h5">Level {{ auth()->user()->getLevelOnShop($shop) }}</p>
             </div>
         </div>
     </div>

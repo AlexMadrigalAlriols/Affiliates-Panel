@@ -26,9 +26,14 @@
                             <td>{{ $customer->code }}</td>
                             <td>{{ $customer->fullName }}</td>
                             <td>{{ $customer->email }}</td>
-                            <td>{{ $customer->id }}</td>
+                            <td>{{ $customer->getLevelOnShop($shop) }}</td>
                             <td>
-                                <button class="btn btn-primary"><i class='bx bx-receipt align-middle'></i></button>
+                                <a class="btn btn-primary" href="{{route('dashboard.user.scan.qr', ['shop' => $shop->subdomain, 'user' => $customer->id])}}">
+                                    <i class='bx bx-receipt align-middle'></i>
+                                </a>
+                                <a class="btn btn-success" href="{{route('dashboard.shop.panel.paychecks.create', ['shop' => $shop->subdomain, 'user' => $customer->id])}}">
+                                    <i class='bx bx-money-withdraw align-middle'></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -60,12 +60,14 @@
                 <div class="col-sm-9">
                     <div class="tab-content p-3" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
-                            {{ view('dashboard.shop.panel.configurations.general', compact('shop')) }}
+                            {{ view('dashboard.shop.panel.configurations.general', compact('shop', 'currencies')) }}
                         </div>
                         <div class="tab-pane fade" id="apparence" role="tabpanel" aria-labelledby="apparence-tab">
                             {{ view('dashboard.shop.panel.configurations.apparence', compact('shop')) }}
                         </div>
-                        <div class="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">Rewards</div>
+                        <div class="tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards-tab">
+                            {{ view('dashboard.shop.panel.configurations.rewards', compact('shop', 'types')) }}
+                        </div>
                         <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab">
                             {{ view('dashboard.shop.panel.configurations.members', compact('shop', 'roles')) }}
                         </div>
@@ -84,9 +86,12 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        new DataTable('#members-datatable');
         $('#logs-datatable').dataTable({
             "order": [[0, 'desc']]
+        });
+
+        $('#members-datatable').dataTable({
+            "order": [[0, 'asc']]
         });
 
         function deleteMemberRoleHandler() {
@@ -98,7 +103,10 @@
         $('body')
             .on('click', '.delete-member-role', deleteMemberRoleHandler)
             .on('click', '#refreshTableBtn', reloadLogsTable)
-            .on('click', '#add-member-role-button', reloadLogsTable);
+            .on('click', '#add-member-role-button', createRoleMember)
+            .on('click', '.edit-memeber-role', editRoleMember)
+            .on('click', '#add-member-button', addRoleMemeber)
+            .on('click', '#save-member-role-button', saveRoleMember);
     });
 
     function deleteMemberRole(member_id) {
@@ -155,6 +163,103 @@
                     position: 'top-end',
                     timer: 3000
                 });
+            }
+        });
+    }
+
+    function createRoleMember() {
+        const url = '{{ route('dashboard.shop_roles.store', ':shop_id') }}';
+
+        $.ajax({
+            url: url.replace(':shop_id', '{{ $shop->subdomain }}'),
+            type: 'POST',
+            data: $('#frm-role').serialize(),
+            success: function (responseJSON) {
+                Swal.fire({
+                    toast: true,
+                    title: responseJSON.message,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    timer: 3000
+                });
+
+                $('#roleModal').modal('hide');
+                reloadMemberRoleTable();
+            },
+            error: function (responseJSON) {
+                Swal.fire({
+                    toast: true,
+                    title: responseJSON.message,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    timer: 3000
+                });
+            }
+        });
+    }
+
+    function saveRoleMember() {
+        var url = '{{ route('dashboard.shop_roles.update', [':shop_id', ':role_id']) }}';
+        url = url.replace(':shop_id', '{{ $shop->subdomain }}');
+        url = url.replace(':role_id', $(this).data('id'));
+
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            data: $('#frm-role').serialize(),
+            success: function (responseJSON) {
+                Swal.fire({
+                    toast: true,
+                    title: responseJSON.message,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    timer: 3000
+                });
+
+                $('#roleModal').modal('hide');
+                reloadMemberRoleTable();
+            },
+            error: function (responseJSON) {
+                Swal.fire({
+                    toast: true,
+                    title: responseJSON.message,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    timer: 3000
+                });
+            }
+        });
+    }
+
+    function editRoleMember() {
+        var url = '{{ route('dashboard.shop_roles.edit', [':shop_id', ':shop_role_id']) }}';
+        url = url.replace(':shop_id', '{{ $shop->subdomain }}');
+        url = url.replace(':shop_role_id', $(this).data('id'));
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (response) {
+                $('#modal-content').html(response);
+                $('#roleModal').modal('show');
+            }
+        });
+    }
+
+    function addRoleMemeber() {
+        var url = '{{ route('dashboard.shop_roles.create', [':shop_id', ':shop_role_id']) }}';
+        url = url.replace(':shop_id', '{{ $shop->subdomain }}');
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (response) {
+                $('#modal-content').html(response);
+                $('#roleModal').modal('show');
             }
         });
     }

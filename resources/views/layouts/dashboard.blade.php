@@ -15,8 +15,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     @yield('styles')
 </head>
 
@@ -36,9 +39,13 @@
                         <i class='bx bx-search nav_icon'></i>
                         <span class="nav_name">Search</span>
                     </a>
-                    <a href="/dashboard" class="nav_link {{ $section == 'Dashboard' ? 'active' : ''}}">
+                    <a href="{{route('dashboard.main')}}" class="nav_link {{ $section == 'Dashboard' ? 'active' : ''}}">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
+                    </a>
+                    <a href="{{route('dashboard.paychecks')}}" class="nav_link {{ $section == 'Paychecks' ? 'active' : ''}}">
+                        <i class='bx bx-money-withdraw nav_icon'></i>
+                        <span class="nav_name">Paychecks</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-chat nav_icon'></i>
@@ -66,7 +73,12 @@
         </div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{{ asset('js/select2.full.min.js')}}"></script>
 <script src="{{ asset('js/main.js')}}"></script>
 <script>
     $(document).ready(function() {

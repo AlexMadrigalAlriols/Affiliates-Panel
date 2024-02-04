@@ -2,6 +2,7 @@
 
 namespace App\UseCases\Shop;
 
+use App\Models\Currency;
 use App\Models\Shop;
 use App\UseCases\Core\UseCase;
 
@@ -11,6 +12,7 @@ class UpdateUseCase extends UseCase
         protected Shop $shop,
         protected string $name,
         protected string $subdomain,
+        protected Currency $currency,
         protected string $description,
         protected ?string $file = null
     ) {
@@ -21,6 +23,7 @@ class UpdateUseCase extends UseCase
         $this->shop->name = $this->name;
         $this->shop->subdomain = $this->subdomain;
         $this->shop->description = $this->description;
+        $this->shop->currency_id = $this->currency->id;
         $this->shop->save();
 
         return $this->shop;

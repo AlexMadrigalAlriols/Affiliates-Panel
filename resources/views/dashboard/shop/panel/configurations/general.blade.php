@@ -12,6 +12,15 @@
         <label for="subdomain-input">Subdomain <span class="text-danger">*</span></label>
     </div>
     <div class="form-floating mb-3">
+        <select class="form-select" name="currency_id" id="currency-select" aria-label="Floating label select example" >
+          <option selected>Choose a Currency</option>
+          @foreach ($currencies as $currency)
+            <option value="{{$currency->id}}" {{($currency->id === $shop->currency_id ? 'selected' : '')}}>{{ ucfirst($currency->name) }} ({{$currency->symbol}})  </option>
+          @endforeach
+        </select>
+        <label for="floatingSelect">Currency</label>
+    </div>
+    <div class="form-floating mb-3">
         <textarea class="form-control" placeholder="Description" id="description-input" name="description" style="height: 100px">{{ $shop->description ?? '' }}</textarea>
         <label for="floatingTextarea2">Description</label>
     </div>

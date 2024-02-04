@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('code')->after('id')->unique()->index();
+        Schema::table('shop_levels', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('code');
+        Schema::table('shop_levels', function (Blueprint $table) {
+            $table->dropSoftDeletes();
         });
     }
 };

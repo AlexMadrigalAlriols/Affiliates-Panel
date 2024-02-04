@@ -10,7 +10,7 @@ class ShopLog extends Model
 {
     use HasFactory;
 
-    const TYPES = ['delete', 'create', 'edit', 'no-type'];
+    const TYPES = ['delete', 'create', 'update', 'no-type'];
 
     protected $fillable = [
         'type',

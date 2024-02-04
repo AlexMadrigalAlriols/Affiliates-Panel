@@ -5,25 +5,37 @@ namespace App\Http\Controllers\Dashboard;
 use App\Helpers\ApiResponse;
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Roles\StoreRequest;
+use App\Http\Requests\Roles\UpdateRequest;
 use App\Models\Shop;
 use App\Models\ShopRole;
+use App\Models\User;
+use App\UseCases\ShopRoles\StoreUseCase;
+use App\UseCases\ShopRoles\UpdateUseCase;
 use Illuminate\Http\Request;
 
 class ShopRolesController extends Controller
 {
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Shop $shop, ShopRole $shopRole)
     {
-        // $useCase = new UpdateUseCase(
-        //     $shop,
-        //     $request->input('name'),
-        //     $request->input('subdomain'),
-        //     $request->input('description') ?? ''
-        // );
-        // $useCase->action();
+        $user = User::findOrFail($request->input('user_id'));
 
-        toast('Configuration Saved', 'success');
+        $useCase = new UpdateUseCase(
+            $shopRole,
+            $shop,
+            $user,
+            $request->input('role')
+        );
+        $useCase->action();
 
-        return ApiResponse::ok([]);
+        LogHelper::generateLog(
+            'Role Modified (' . $user->email . ') (' . $request->input('role') . ')',
+            $request->user(),
+            $shop,
+            'update'
+        );
+
+        return ApiResponse::done('Success saved role.');
     }
 
     public function index(Request $request, Shop $shop) {
@@ -34,6 +46,29 @@ class ShopRolesController extends Controller
         }
 
         return [];
+    }
+
+    public function create(Request $request, Shop $shop) {
+        $users = $shop->shopCustomers;
+        $roles = ShopRole::ROLES;
+        $shopRole = new ShopRole();
+
+        $viewData = compact('shopRole', 'users', 'roles');
+
+        if ($request->ajax()) {
+            return view('partials.shopRoles.modal_form', $viewData);
+        }
+    }
+
+    public function edit(Request $request, Shop $shop, ShopRole $shopRole) {
+        $users = $shop->shopCustomers;
+        $roles = ShopRole::ROLES;
+
+        $viewData = compact('shopRole', 'users', 'roles');
+
+        if ($request->ajax()) {
+            return view('partials.shopRoles.modal_form', $viewData);
+        }
     }
 
     public function destroy(Request $request, ShopRole $shopRole)
@@ -57,5 +92,25 @@ class ShopRolesController extends Controller
         );
 
         return ApiResponse::done('Success Role Deleted');
+    }
+
+    public function store(StoreRequest $request, Shop $shop) {
+        $user = User::findOrFail($request->input('user_id'));
+
+        $useCase = new StoreUseCase(
+            $shop,
+            $user,
+            $request->input('role')
+        );
+        $useCase->action();
+
+        LogHelper::generateLog(
+            'Member Role Add (' . $user->email . ') (' . $request->input('role') . ')',
+            $request->user(),
+            $shop,
+            'create'
+        );
+
+        return ApiResponse::done('Success add member to roles');
     }
 }

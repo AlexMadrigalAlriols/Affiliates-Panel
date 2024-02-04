@@ -48,6 +48,10 @@
                         <i class='bx bx-user nav_icon'></i>
                         <span class="nav_name">Members</span>
                     </a>
+                    <a href="{{ route('dashboard.shop.panel.paychecks', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Paychecks' ? 'active' : ''}}">
+                        <i class='bx bx-money-withdraw nav_icon'></i>
+                        <span class="nav_name">Paychecks</span>
+                    </a>
                     <a href="{{ route('dashboard.shop.panel.tickets', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Tickets' ? 'active' : ''}}">
                         <i class='bx bx-receipt nav_icon'></i>
                         <span class="nav_name">Ticket History</span>

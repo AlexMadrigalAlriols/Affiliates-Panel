@@ -11,6 +11,7 @@ class UserLevel extends Model
 
     protected $fillable = [
         'user_id',
+        'shop_id',
         'exp_progress',
         'shop_level_id',
         'created_at',
@@ -22,13 +23,18 @@ class UserLevel extends Model
         'updated_at'
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function shopLevel(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function shop(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(ShopLevel::class);
+        return $this->belongsTo(Shop::class);
+    }
+
+    public function shopLevel(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ShopLevel::class);
     }
 }
