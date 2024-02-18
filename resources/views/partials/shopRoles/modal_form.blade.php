@@ -14,7 +14,7 @@
         @csrf
         <div class="mb-3">
             <label for="user-select">User</label>
-            <select name="user_id" id="user-select" class="form-select">
+            <select name="user_id" id="user-select" class="select2">
                 <option value="">Choose one...</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}" {{($shopRole->user_id === $user->id ? 'selected' : '')}}>{{ ucfirst($user->full_name) }}</option>

@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'phone',
         'code',
         'profile_img',
         'email',
@@ -84,9 +85,48 @@ class User extends Authenticatable
     public function getLevelOnShop(Shop $shop)
     {
         $user_level = UserLevel::where('user_id', $this->id)
+            ->where('type', ShopLevel::TYPES['level'])
             ->where('shop_id', $shop->id)
             ->first();
 
         return $user_level ? $user_level->shopLevel->level : 0;
+    }
+
+    public function getRewardsCollected(Shop $shop)
+    {
+        $user_level = UserLevel::where('user_id', $this->id)
+            ->where('type', ShopLevel::TYPES['loop'])
+            ->where('shop_id', $shop->id)
+            ->first();
+
+        return $user_level ? $user_level->exp_progress : 0;
+    }
+
+    public function getTimesRewardCollected(Shop $shop)
+    {
+        $user_level = UserLevel::where('user_id', $this->id)
+            ->where('type', ShopLevel::TYPES['loop'])
+            ->where('shop_id', $shop->id)
+            ->first();
+
+        return $user_level ? ($user_level->data['times_collected'] ?? 0) : 0;
+    }
+
+    public function getProgressBar(Shop $shop)
+    {
+        $user_level = UserLevel::where('user_id', $this->id)
+            ->where('type', ShopLevel::TYPES['level'])
+            ->where('shop_id', $shop->id)
+            ->first();
+
+        if($user_level) {
+            $expProgress = $user_level->exp_progress ?? 0;
+            $shopLevel = $user_level->shopLevel?->level ?? 1;
+            $expRequired = $shop['required_exp'] ?? config('levels.default_required_exp');
+
+            $percentage = ($expProgress / ($shopLevel * $expRequired)) * 100;
+        }
+
+        return $percentage ?? 0;
     }
 }

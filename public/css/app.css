@@ -1,5 +1,18 @@
+:root {
+    --header-height: 3rem;
+    --nav-width: 68px;
+    --secondary-color:rgb(58, 29, 173)9;
+    --first-color: #4723d9;
+    --first-color-light: #afa5d9;
+    --white-color: #f7f6fb;
+    --body-font: "Nunito", sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100;
+    --black-color: #242424;
+}
+
 body {
-    background-color: #242424 !important;
+    background-color: var(--black-color) !important;
 }
 
 .content {
@@ -46,13 +59,19 @@ body {
 
 .icon-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(90px, 1fr)); /* Columnas automáticas */
+    grid-template-columns: repeat(
+        2,
+        minmax(90px, 1fr)
+    ); /* Columnas automáticas */
     gap: 10px; /* Espacio entre los íconos */
     justify-content: center;
 }
 
 .icon-grid.show {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important; /* Columnas automáticas */
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(80px, 1fr)
+    ) !important; /* Columnas automáticas */
 }
 
 .icon {
@@ -71,10 +90,162 @@ body {
     float: right !important;
 }
 
-.config-header button{
+.config-header button {
     margin-top: -0.5rem;
 }
 
 .required {
     color: red !important;
+}
+
+.select2 {
+    max-width: 100%;
+    width: 100% !important;
+}
+
+table .select2-container--default .select2-selection--single,
+.modal .select2-container--default .select2-selection--single {
+    height: 31px;
+    padding: 4px 12px;
+}
+
+table .select2-container--default .select2-selection--multiple {
+    min-height: 31px;
+}
+
+table
+    .select2-container
+    .select2-selection--multiple
+    .select2-selection__rendered {
+    display: block;
+}
+
+table
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    padding: 0 10px;
+    margin-top: 2px;
+}
+
+.select2-container--open {
+    z-index: 9999;
+}
+
+.select2-results {
+    position: absolute;
+    right: 0;
+    border: solid 1px lightgrey;
+    background-color: white;
+    max-width: 2700px;
+    width: 100%;
+}
+
+.select2-container--default .select2-results > .select2-results__options {
+    overflow-x: hidden;
+}
+
+.searchable-select2-results .select2-results {
+    max-width: none;
+}
+
+@media (max-width: 640px) {
+    .select2-results {
+        position: relative;
+        border: none;
+    }
+}
+
+.select2-results__option {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 100%;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 2.4rem !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.375rem;
+}
+
+.icon-reward {
+    font-size: 26px;
+    padding: 0.5rem;
+    color: rgba(201, 201, 201, 0.801);
+}
+
+.icon-reward.collected {
+    color: var(--first-color);
+}
+
+.select2-selection__arrow {
+    top: 5px !important;
+    right: 7px !important;
+}
+
+/* Shop show */
+.content:has(>.main > .container-fluid .logo-container) {
+    padding: 0 !important;
+}
+
+.container-fluid:has(>.rewards-container) {
+    max-width: 450px !important;
+}
+
+.logo-container {
+    background-color: rgb(243, 205, 174);
+    height: 13rem;
+}
+
+.rewards-container {
+    height: calc(100vh - 13rem - 3rem) !important;
+}
+
+.reward-card {
+    margin-top: -2rem;
+    height: fit-content;
+    box-shadow: #24242452 0px 0px 10px;
+    border-radius: 10px;
+}
+
+.circle {
+    width: 50px; /* Ajusta el tamaño del círculo según sea necesario */
+    height: 50px; /* Ajusta el tamaño del círculo según sea necesario */
+    border-radius: 50%; /* Hace que el div sea un círculo */
+    border: 2px solid #ccc;
+    background-color: #fff; /* Color de fondo del círculo */
+    display: flex; /* Utiliza flexbox para centrar el icono vertical y horizontalmente */
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+}
+
+.container-fluid {
+    padding: 0 !important;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 2.6rem); /* Crea un grid con columnas automáticas que se ajustan al tamaño del contenedor */
+    gap: 25px; /* Espacio entre los elementos */
+    justify-content: center; /* Centra los elementos horizontalmente en el grid */
+    align-items: center; /* Centra los elementos verticalmente en el grid */
+}
+
+.blocked-card {
+    opacity: 0.5; /* Opacidad del card */
+    pointer-events: none; /* Evita que se pueda interactuar con el card */
+}
+
+.font-selector option[data-font] {
+    font-family: attr(data-font);
+}
+
+/* Datatables */
+.dataTables_length,
+.dataTables_filter {
+    margin: 10px;
+}
+
+.dt-row {
+    margin-bottom: 1.5rem !important;
 }

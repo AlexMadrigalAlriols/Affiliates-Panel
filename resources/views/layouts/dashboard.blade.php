@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="locale" content="{{ app()->getLocale() }}">
 
-    <title>{{ trans('global.site_title') }} | {{ $section }}</title>
+    <title>{{ trans('global.site_title') }} | {{ trans('cruds.' . strtolower($section) . '.title') }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -37,23 +37,23 @@
                     <hr>
                     <a href="#" class="nav_link {{ $section == 'Search' ? 'active' : ''}}">
                         <i class='bx bx-search nav_icon'></i>
-                        <span class="nav_name">Search</span>
+                        <span class="nav_name">{{ __('cruds.search.title') }}</span>
                     </a>
                     <a href="{{route('dashboard.main')}}" class="nav_link {{ $section == 'Dashboard' ? 'active' : ''}}">
                         <i class='bx bx-grid-alt nav_icon'></i>
-                        <span class="nav_name">Dashboard</span>
+                        <span class="nav_name">{{ __('cruds.dashboard.title') }}</span>
                     </a>
                     <a href="{{route('dashboard.paychecks')}}" class="nav_link {{ $section == 'Paychecks' ? 'active' : ''}}">
                         <i class='bx bx-money-withdraw nav_icon'></i>
-                        <span class="nav_name">Paychecks</span>
+                        <span class="nav_name">{{ __('cruds.paychecks.title') }}</span>
                     </a>
                     <a href="#" class="nav_link">
                         <i class='bx bx-chat nav_icon'></i>
-                        <span class="nav_name">Messages</span>
+                        <span class="nav_name">{{ __('cruds.announces.title') }}</span>
                     </a>
                     <a href="#" class="nav_link {{ $section == 'Settings' ? 'active' : ''}}">
                         <i class='bx bx-cog nav_icon'></i>
-                        <span class="nav_name">Settings</span>
+                        <span class="nav_name">{{ __('cruds.settings.title') }}</span>
                     </a>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <hr>
                 <a href="{{route('logout')}}" class="nav_link">
                     <i class='bx bx-log-out nav_icon'></i>
-                    <span class="nav_name">Sign Out</span>
+                    <span class="nav_name">{{__('global.logout')}}</span>
                 </a>
             </div>
         </nav>
@@ -80,32 +80,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{ asset('js/select2.full.min.js')}}"></script>
 <script src="{{ asset('js/main.js')}}"></script>
-<script>
-    $(document).ready(function() {
-        const showNavbar = (toggleId, navId, bodyId, headerId) => {
-            const toggle = $(`#${toggleId}`),
-                nav = $(`#${navId}`),
-                bodypd = $(`#${bodyId}`),
-                headerpd = $(`#${headerId}`);
-
-            // Validate that all variables exist
-            if (toggle.length && nav.length && bodypd.length && headerpd.length) {
-                toggle.on('click', () => {
-                    // show navbar
-                    nav.toggleClass('show');
-                    // change icon
-                    toggle.toggleClass('bx-x');
-                    // add padding to body
-                    bodypd.toggleClass('body-pd');
-                    // add padding to header
-                    headerpd.toggleClass('header-pd');
-                    headerpd.toggleClass('body-pd');
-                });
-            }
-        };
-
-        showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
-    });
-</script>
 @yield('scripts')
 </html>

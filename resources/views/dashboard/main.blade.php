@@ -53,9 +53,9 @@
                         <div class="icon">
                             <i class='bx bx-info-circle align-middle'></i>
                         </div>
-                        <div class="icon">
+                        <a class="icon text-black" href="{{ route('dashboard.user.shop.unmark', ['shop' => $shop->subdomain]) }}">
                             <i class='bx bxs-bookmark-star align-middle'></i>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>

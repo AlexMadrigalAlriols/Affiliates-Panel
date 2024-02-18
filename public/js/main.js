@@ -25,3 +25,7 @@ $(document).ready(function() {
 
     showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header');
 });
+
+function parseSelect2Results(results) {
+    return Array.isArray(results) ? results : Object.values(results);
+}

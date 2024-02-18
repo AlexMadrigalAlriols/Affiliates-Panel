@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ShopLevel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     const TYPES = [
-        'LEVEL',
-        'REWARD'
+        'level' => 'level',
+        'loop' => 'loop'
     ];
 
     protected $fillable = [

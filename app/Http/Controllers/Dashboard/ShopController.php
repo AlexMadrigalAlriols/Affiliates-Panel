@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Helpers\LogHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Shop\UpdateDataRequest;
 use App\Http\Requests\Shop\UpdateRequest;
+use App\Http\Requests\ShopLevel\UpdateRequest as ShopLevelUpdateRequest;
 use App\Models\Currency;
 use App\Models\Shop;
 use App\Models\ShopLevel;
 use App\Models\ShopRole;
 use App\Models\User;
 use App\UseCases\Shop\UpdateUseCase;
+use App\UseCases\ShopLevel\UpdateUseCase as ShopLevelUpdateUseCase;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
@@ -18,7 +21,9 @@ class ShopController extends Controller
 {
     public function show(Shop $shop)
     {
-        return view('dashboard.shop.show', compact('shop'));
+        $user = auth()->user();
+
+        return view('dashboard.shop.show', compact('shop', 'user'));
     }
 
     public function overview(Shop $shop)
@@ -28,16 +33,23 @@ class ShopController extends Controller
 
     public function customerList(Shop $shop)
     {
-        return view('dashboard.shop.panel.customers', compact('shop'));
+        return view('dashboard.shop.panel.customers.index', compact('shop'));
     }
 
     public function shopConfig(Shop $shop)
     {
-        $roles = ShopRole::ROLES;
-        $types = ShopLevel::TYPES;
+        $section = 'general';
         $currencies = Currency::all();
 
-        return view('dashboard.shop.panel.configuration', compact('shop', 'roles', 'currencies', 'types'));
+        return view('dashboard.shop.panel.configurations.general', compact('shop', 'currencies', 'section'));
+    }
+
+    public function shopAppearance(Shop $shop)
+    {
+        $section = 'appearance';
+        $currencies = Currency::all();
+
+        return view('dashboard.shop.panel.configurations.appearance', compact('shop', 'currencies', 'section'));
     }
 
     public function generateShopQr(Shop $shop) {
@@ -75,5 +87,30 @@ class ShopController extends Controller
         toast('Configuration Saved', 'success');
 
         return redirect()->route('dashboard.shop.panel.configuration', $shop->subdomain);
+    }
+
+    public function updateData(UpdateDataRequest $request, Shop $shop) {
+        $data = ["colors" => $request->input('colors')];
+
+        $useCase = new UpdateUseCase(
+            $shop,
+            $shop->name,
+            $shop->subdomain,
+            $shop->currency,
+            $shop->description,
+            $data
+        );
+        $useCase->action();
+
+        LogHelper::generateLog(
+            'Shop Configuration Modified',
+            $request->user(),
+            $shop,
+            'edit'
+        );
+
+        toast('Configuration Saved', 'success');
+
+        return redirect()->route('dashboard.shop.panel.configuration.appearance.index', $shop->subdomain);
     }
 }

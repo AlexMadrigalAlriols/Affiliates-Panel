@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="locale" content="{{ app()->getLocale() }}">
 
-    <title>{{ $shop->name }} | {{ $section }}</title>
+    <title>{{ $shop->name }} | {{ trans('cruds.' . strtolower($section) . '.title') }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -17,10 +17,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     @yield('styles')
+
+    <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body id="body-pd">
@@ -44,19 +47,19 @@
                         <i class='bx bx-home-alt nav_icon'></i>
                         <span class="nav_name">Overview</span>
                     </a>
-                    <a href="{{ route('dashboard.shop.panel.customers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Customers' ? 'active' : ''}}">
+                    <a href="{{ route('dashboard.shop.panel.customers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'users' ? 'active' : ''}}">
                         <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">Members</span>
+                        <span class="nav_name">{{ __('cruds.users.title') }}</span>
                     </a>
                     <a href="{{ route('dashboard.shop.panel.paychecks', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Paychecks' ? 'active' : ''}}">
                         <i class='bx bx-money-withdraw nav_icon'></i>
-                        <span class="nav_name">Paychecks</span>
+                        <span class="nav_name">{{ __('cruds.paychecks.title') }}</span>
                     </a>
                     <a href="{{ route('dashboard.shop.panel.tickets', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Tickets' ? 'active' : ''}}">
                         <i class='bx bx-receipt nav_icon'></i>
-                        <span class="nav_name">Ticket History</span>
+                        <span class="nav_name">{{__('cruds.tickets.title_long')}}</span>
                     </a>
-                    <a href="#" class="nav_link">
+                    <a href="{{ route('dashboard.shop.panel.messages', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Messages' ? 'active' : ''}}">
                         <i class='bx bx-mail-send nav_icon' ></i>
                         <span class="nav_name">Announces</span>
                     </a>

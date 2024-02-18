@@ -14,6 +14,7 @@ class UpdateUseCase extends UseCase
         protected string $subdomain,
         protected Currency $currency,
         protected string $description,
+        protected array $data = [],
         protected ?string $file = null
     ) {
     }
@@ -24,6 +25,7 @@ class UpdateUseCase extends UseCase
         $this->shop->subdomain = $this->subdomain;
         $this->shop->description = $this->description;
         $this->shop->currency_id = $this->currency->id;
+        $this->shop->config = array_merge($this->shop->config, $this->data);
         $this->shop->save();
 
         return $this->shop;

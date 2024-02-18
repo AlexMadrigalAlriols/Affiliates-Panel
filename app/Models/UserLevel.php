@@ -11,6 +11,8 @@ class UserLevel extends Model
 
     protected $fillable = [
         'user_id',
+        'type',
+        'data',
         'shop_id',
         'exp_progress',
         'shop_level_id',
@@ -21,6 +23,10 @@ class UserLevel extends Model
     protected $dates = [
         'created_at',
         'updated_at'
+    ];
+
+    protected $casts = [
+        'data' => 'array'
     ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

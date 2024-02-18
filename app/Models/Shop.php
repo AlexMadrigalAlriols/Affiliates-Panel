@@ -12,6 +12,7 @@ class Shop extends Model
 
     protected $fillable = [
         'name',
+        'type',
         'subdomain',
         'description',
         'config',
@@ -41,9 +42,9 @@ class Shop extends Model
         return env('APP_URL') . '/' . $this->subdomain;
     }
 
-    public function shopLevels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function shopLevels(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(ShopLevel::class);
+        return $this->hasMany(ShopLevel::class);
     }
 
     public function shopCustomers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -71,13 +72,18 @@ class Shop extends Model
         return $this->hasMany(ShopLog::class);
     }
 
+    public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
     public function resolveRouteBinding($value, $field = null)
     {
         return $this->where('subdomain', $value)->firstOrFail();
     }
 
-    public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function shopMessages(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
-        return $this->belongsTo(Currency::class);
+        return $this->hasMany(Message::class);
     }
 }

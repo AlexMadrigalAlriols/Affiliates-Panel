@@ -22,8 +22,25 @@ class UserLevelHelper
         }
 
         $user_level = self::findOrCreate($user, $shop);
-        $expToAdd = $import * 100; // [TODO] Configurable setting.
-        $expRequired = $user_level->shopLevel->level * 5000; // [TODO] Configurable setting.
+
+        if($shop->type === ShopLevel::TYPES['loop']) {
+            $user_level->exp_progress += intval($import);
+
+            if ($user_level->exp_progress > $shop->config['times_for_reward'] ?? 5) {
+                $user_level->exp_progress = $user_level->exp_progress - ($shop->config['times_for_reward'] ?? 5);
+                $user_level->data['times_collected'] = ($user_level->data['times_collected'] ?? 0) + 1;
+            }
+
+            return $user_level->save();
+        }
+
+        $shop_config = [
+            'required_exp' => $shop->config['required_exp'] ?? config('levels.default_required_exp'),
+            'point_multiplier' => $shop->config['point_multiplier'] ?? config('levels.default_point_multiplier'),
+        ];
+
+        $expToAdd = $import * $shop_config['point_multiplier'];
+        $expRequired = $user_level->shopLevel->level * $shop_config['required_exp'];
         $newExp = $user_level->exp_progress + $expToAdd;
 
         while ($newExp >= $expRequired) {
@@ -35,7 +52,7 @@ class UserLevelHelper
                 $user_level->save();
                 $user_level->refresh();
 
-                $expRequired = $user_level->shopLevel->level * 5000;
+                $expRequired = $user_level->shopLevel->level * $shop_config['required_exp'];
             } else {
                 // No hay más niveles, sal del bucle
                 break;
@@ -57,24 +74,38 @@ class UserLevelHelper
         }
 
         $user_level = self::findOrCreate($user, $shop);
-        $expToSubtract = $import * 100; // [TODO] Configurable setting.
+
+        if($shop->type === ShopLevel::TYPES['loop']) {
+            $user_level->exp_progress -= intval($import);
+
+            if ($user_level->exp_progress < 0) {
+                $user_level->exp_progress = 0;
+            }
+
+            return $user_level->save();
+        }
+
+        $shop_config = [
+            'required_exp' => $shop->config['required_exp'] ?? config('levels.default_required_exp'),
+            'point_multiplier' => $shop->config['point_multiplier'] ?? config('levels.default_point_multiplier'),
+        ];
+        $expToSubtract = $import * $shop_config['point_multiplier'];
 
         // Restar experiencia
         $exp_progress = $user_level->exp_progress - $expToSubtract;
 
         while ($exp_progress < 0) {
-            // Si la experiencia es negativa, restar un nivel y ajustar la experiencia
             $currentLevel = $user_level->shopLevel->level;
 
             if ($currentLevel > 1) {
                 $user_level->shop_level_id = self::findPreviousLevel($shop->id, $currentLevel)->id;
-                $exp_progress += $currentLevel * 5000;
+                $exp_progress += $currentLevel * $shop_config['required_exp'];
                 $user_level->save();
                 $user_level->refresh();
 
                 $currentLevel = $user_level->shopLevel->level;
             } else {
-                $exp_progress = ($exp_progress < $currentLevel * 5000 && $exp_progress > 0) ? $exp_progress : 0;
+                $exp_progress = ($exp_progress < $currentLevel * $shop_config['required_exp'] && $exp_progress > 0) ? $exp_progress : 0;
                 break;
             }
         }
@@ -85,21 +116,23 @@ class UserLevelHelper
 
     public static function findOrCreate(User $user, Shop $shop): UserLevel
     {
-        $level = self::find($user->id, $shop->id);
+        $level = self::find($user->id, $shop->id, $shop->type);
 
         if(!$level) {
             $level = (new StoreUseCase(
                 $shop,
-                $user
+                $user,
+                $shop->type
             ))->action();
         }
 
         return $level;
     }
 
-    public static function find(int $user_id, int $shop_id): ?UserLevel
+    public static function find(int $user_id, int $shop_id, string $type): ?UserLevel
     {
         return UserLevel::where('user_id', $user_id)
+            ->where('type', $type)
             ->where('shop_id', $shop_id)
             ->first();
     }
@@ -116,14 +149,5 @@ class UserLevelHelper
         return ShopLevel::where('shop_id', $shop_id)
             ->where('level', $actualLevel - 1)
             ->first();
-    }
-
-    public static function getUserLevelOnShop(Shop $shop, User $user): int
-    {
-        $user_level = UserLevel::where('user_id', $user->id)
-            ->where('shop_id', $shop->id)
-            ->first();
-
-        return $user_level ? $user_level->shopLevel->level : 0;
     }
 }

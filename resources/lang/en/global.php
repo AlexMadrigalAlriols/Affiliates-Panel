@@ -11,5 +11,12 @@ return [
     'login' => 'Login',
     'register' => 'Register',
     'login_with' => 'Login With',
-    'register_with' => 'Register With'
+    'register_with' => 'Register With',
+    'logout' => 'Cerrar sesión',
+    'actions' => 'Actions',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'select' => 'Select',
+    'close' => 'Close',
+    'select_one' => 'Choose one...',
 ];

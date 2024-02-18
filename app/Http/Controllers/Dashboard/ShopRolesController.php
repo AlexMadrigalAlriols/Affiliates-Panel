@@ -39,13 +39,16 @@ class ShopRolesController extends Controller
     }
 
     public function index(Request $request, Shop $shop) {
+        $section = 'roles';
+        $roles = ShopRole::ROLES;
+
         if($request->ajax()) {
             $shopRoles = ShopRole::where('shop_id', $shop->id)->get();
 
             return view('partials.shopRoles.datatable', compact('shopRoles'));
         }
 
-        return [];
+        return view('dashboard.shop.panel.configurations.members', compact('shop', 'roles', 'section'));
     }
 
     public function create(Request $request, Shop $shop) {

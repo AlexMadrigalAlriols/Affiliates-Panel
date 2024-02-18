@@ -13,23 +13,28 @@ class StoreUseCase extends UseCase
     public function __construct(
         protected Shop $shop,
         protected User $user,
+        protected string $type = ShopLevel::TYPES['level'],
         protected int $default_exp = 0
     ) {
     }
 
     public function action(): UserLevel
     {
-        $shop_level = ShopLevel::where('shop_id', $this->shop->id)->where('level', 1)->first();
+        $shop_level = null;
+        if($this->type === ShopLevel::TYPES['level']) {
+            $shop_level = ShopLevel::where('shop_id', $this->shop->id)->where('level', 1)->first();
 
-        if(!$shop_level) {
-            throw new \Exception('Shop Configuration Missing. No levels configured.');
+            if(!$shop_level) {
+                throw new \Exception('Shop Configuration Missing. No levels configured.');
+            }
         }
 
         return UserLevel::create([
             'user_id' => $this->user->id,
             'shop_id'=> $this->shop->id,
             'exp_progress'=> $this->default_exp,
-            'shop_level_id' => $shop_level->id
+            'shop_level_id' => $shop_level ? $shop_level->id : null,
+            'type' => $this->type,
         ]);
     }
 }
