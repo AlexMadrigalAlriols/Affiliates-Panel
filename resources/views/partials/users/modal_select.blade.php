@@ -11,7 +11,7 @@
             <div class="modal-body" id="modal-body">
                 <form id="frm-role">
                     <div class="mb-3">
-                        <label for="user-select">{{ __('cruds.paychecks.fields.user') }}</label>
+                        <label for="user-select">{{ __('cruds.vouchers.fields.user') }}</label>
                         <select name="user_id" id="user-select" class="select2" required>
                             <option value="">{{ __('global.select_one') }}</option>
                         </select>

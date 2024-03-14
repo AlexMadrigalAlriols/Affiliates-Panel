@@ -2,6 +2,7 @@
 
 namespace App\UseCases\ShopRoles;
 
+use App\Models\Role;
 use App\Models\Shop;
 use App\Models\ShopRole;
 use App\Models\User;
@@ -12,7 +13,7 @@ class StoreUseCase extends UseCase
     public function __construct(
         protected Shop $shop,
         protected User $user,
-        protected string $role
+        protected Role $role
     ) {
     }
 
@@ -21,7 +22,7 @@ class StoreUseCase extends UseCase
         return ShopRole::create([
             'user_id' => $this->user->id,
             'shop_id'=> $this->shop->id,
-            'role' => $this->role
+            'role_id' => $this->role->id
         ]);
     }
 }

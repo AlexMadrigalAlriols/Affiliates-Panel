@@ -41,9 +41,17 @@
                                     style="height: 100px">{{ $shop->description ?? '' }}</textarea>
                                 <label for="floatingTextarea2">Description</label>
                             </div>
-                            <div class="mb-3">
-                                <label for="image-input" class="form-label">Banner</label>
-                                <input type="file" class="form-control" id="image-input">
+
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="shop_banner">Actual Banner:</label>
+                                    <img src="{{ isset($shop->config['banner_img']) ? asset($shop->config['banner_img']) : asset('img/errors/404.png') }}" alt="shop_banner" id="shop_banner" width="200px">
+                                </div>
+                                <div class="col-md-9 mb-3">
+                                    <label for="bannerDropzone">Upload Banner:</label>
+                                    <div class="dropzone" id="bannerDropzone">
+                                    </div>
+                                </div>
                             </div>
 
                             <button class="btn btn-success" style="float: right;" type="submit"><i class='bx bx-save'></i>
@@ -54,4 +62,25 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        Dropzone.autoDiscover = false;
+
+        $(document).ready(function() {
+            new Dropzone("#bannerDropzone", {
+                url: "{{ route('dashboard.upload_file') }}", // Ruta donde manejarás la carga de archivos
+                paramName: "dropzone_image", // Nombre del campo de formulario para el archivo
+                maxFilesize: 2, // Tamaño máximo en MB
+                acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                addRemoveLinks: true,
+                uploadMultiple: false,
+                maxFiles: 1,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+        });
+    </script>
 @endsection

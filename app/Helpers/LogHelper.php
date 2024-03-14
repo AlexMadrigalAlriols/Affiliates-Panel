@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Log;
 use App\Models\Shop;
 use App\Models\ShopLog;
 use App\Models\User;
@@ -10,21 +11,27 @@ class LogHelper
 {
     public static function generateLog(
         string $message,
-        User $user,
-        Shop $shop,
-        string $type = 'no-type'
+        ?User $user = null,
+        ?Shop $shop = null,
+        string $message_type = 'no-type',
+        string $type = 'info',
     ): bool
     {
-        if(!in_array($type, ShopLog::TYPES)) {
+        if(!in_array($type, Log::TYPES)) {
+            return false;
+        }
+
+        if(!in_array($message_type, Log::MESSAGE_TYPE)) {
             return false;
         }
 
         try {
-            ShopLog::create([
+            Log::create([
                 'type' => $type,
+                'message_type' => $message_type,
                 'message' => $message,
-                'user_id' => $user->id,
-                'shop_id' => $shop->id
+                'user_id' => $user ? $user->id : null,
+                'shop_id' => $shop ? $shop->id : null
             ]);
 
             return true;

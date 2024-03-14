@@ -64,12 +64,12 @@ class Shop extends Model
 
     public function shopPayChecks(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
-        return $this->hasMany(PayCheck::class);
+        return $this->hasMany(Voucher::class);
     }
 
     public function shopLogs(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
-        return $this->hasMany(ShopLog::class);
+        return $this->hasMany(Log::class);
     }
 
     public function currency(): \Illuminate\Database\Eloquent\Relations\BelongsTo

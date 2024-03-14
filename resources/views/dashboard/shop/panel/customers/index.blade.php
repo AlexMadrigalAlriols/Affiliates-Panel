@@ -34,14 +34,18 @@
                                         <td>{{ $customer->getLevelOnShop($shop) }}</td>
                                     @endif
                                     <td>
-                                        <a class="btn btn-primary mb-1"
-                                            href="{{ route('dashboard.user.scan.qr', ['shop' => $shop->subdomain, 'user' => $customer->id]) }}">
-                                            <i class='bx bx-receipt align-middle'></i>
-                                        </a>
-                                        <a class="btn btn-success mb-1"
-                                            href="{{ route('dashboard.shop.panel.paychecks.create', ['shop' => $shop->subdomain, 'user' => $customer->id]) }}">
-                                            <i class='bx bx-money-withdraw align-middle'></i>
-                                        </a>
+                                        @can('hasPermissionInShop', ['ticket_create', $shop->id])
+                                            <a class="btn btn-primary mb-1"
+                                                href="{{ route('dashboard.user.scan.qr', ['shop' => $shop->subdomain, 'user' => $customer->id]) }}">
+                                                <i class='bx bx-receipt align-middle'></i>
+                                            </a>
+                                        @endcan
+                                        @can('hasPermissionInShop', ['voucher_create', $shop->id])
+                                            <a class="btn btn-success mb-1"
+                                                href="{{ route('dashboard.shop.panel.voucher.create', ['shop' => $shop->subdomain, 'user' => $customer->id]) }}">
+                                                <i class='bx bx-money-withdraw align-middle'></i>
+                                            </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

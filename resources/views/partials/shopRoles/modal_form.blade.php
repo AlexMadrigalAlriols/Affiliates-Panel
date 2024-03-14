@@ -23,10 +23,10 @@
         </div>
 
         <div class="form-floating mb-2">
-            <select class="form-select" name="role" id="role-select" aria-label="Shop Role">
+            <select class="form-select" name="role_id" id="role-select" aria-label="Shop Role">
                 <option selected>Choose a member role</option>
                 @foreach ($roles as $role)
-                    <option value="{{$role}}" {{($shopRole->role === $role ? 'selected' : '')}}>{{ ucfirst($role) }}</option>
+                    <option value="{{ $role->id }}" {{($shopRole->role?->id === $role->id ? 'selected' : '')}}>{{ ucfirst($role->title) }}</option>
                 @endforeach
             </select>
             <label for="floatingSelect">Role</label>

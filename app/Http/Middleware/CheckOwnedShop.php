@@ -12,7 +12,7 @@ class CheckOwnedShop
     {
         $user = Auth::user();
 
-        if (!$user->owned_shops()->where(
+        if (!$user->is_admin && !$user->owned_shops()->where(
             'subdomain', is_string($request->route('shop'))
                 ? $request->route('shop') : $request->route('shop')->subdomain)->exists()
         ) {

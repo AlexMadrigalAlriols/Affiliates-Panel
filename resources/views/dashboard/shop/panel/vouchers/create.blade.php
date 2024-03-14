@@ -1,4 +1,4 @@
-@extends('layouts.panel', ['section' => 'create_paycheck', 'shop' => $shop])
+@extends('layouts.panel', ['section' => 'create_voucher', 'shop' => $shop])
 @section('content')
     <div>
         <div class="card">
@@ -6,7 +6,7 @@
                 <div class="title-container">
                     <span class="h4 py-2 px-1 border-dark border-bottom border-2">
                         <i class='bx bx-receipt align-middle'></i>
-                        {{ __('global.create') }} {{ __('cruds.paychecks.title_singular') }}
+                        {{ __('global.create') }} {{ __('cruds.vouchers.title_singular') }}
                     </span>
                 </div>
 
@@ -22,20 +22,19 @@
                             </p>
                         </div>
                     </div>
-                    <h6><b>{{ __('cruds.paychecks.fields.import') }}</b> <label class="required">*</label></h6>
+                    <h6><b>{{ __('cruds.vouchers.fields.reward') }}</b> <label class="required">*</label></h6>
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" name="import" id="ticket_import" value="1"
-                            min="1" placeholder="1" autofocus required step="0.01">
-                        <label for="ticket_import">{{ __('cruds.paychecks.fields.import') }}</label>
+                        <input type="text" class="form-control" name="reward" id="voucher_reward" placeholder="20%" autofocus required>
+                        <label for="voucher_reward">{{ __('cruds.vouchers.fields.reward') }}</label>
                     </div>
 
-                    <h6><b>{{ __('cruds.paychecks.fields.expiration_date') }}</b></h6>
+                    <h6><b>{{ __('cruds.vouchers.fields.expiration_date') }}</b></h6>
                     <div class="form-floating mb-4">
                         <input type="date" class="form-control" name="expiration_date" id="expiration_date">
-                        <label for="expiration_date">{{ __('cruds.paychecks.fields.expiration_date') }}</label>
+                        <label for="expiration_date">{{ __('cruds.vouchers.fields.expiration_date') }}</label>
                     </div>
 
-                    <button class="btn btn-success pull-right w-100"><i class='bx bx-save'></i> {{ __('global.create') }} {{ __('cruds.paychecks.title_singular') }}</button>
+                    <button class="btn btn-success pull-right w-100"><i class='bx bx-save'></i> {{ __('global.create') }} {{ __('cruds.vouchers.title_singular') }}</button>
                 </form>
             </div>
         </div>

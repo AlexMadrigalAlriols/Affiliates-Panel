@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'checkOwnedShop' => \App\Http\Middleware\CheckOwnedShop::class,
+        'apiAuth' => \App\Http\Middleware\ApiAuth::class
     ];
 
 }

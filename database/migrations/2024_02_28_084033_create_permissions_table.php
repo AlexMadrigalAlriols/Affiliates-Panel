@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pay_checks', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
-            $table->integer('import')->default(0);
-            $table->date('expires_at')->nullable();
+            $table->string('title');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pay_checks');
+        Schema::dropIfExists('permissions');
     }
 };

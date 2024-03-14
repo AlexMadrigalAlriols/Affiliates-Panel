@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Roles;
 
+use App\Models\Role;
 use App\Models\ShopRole;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,8 +23,10 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $roles = Role::where('title', '!=', 'Owner')->where('type', Role::TYPES['shop'])->pluck('id')->toArray();
+
         return [
-            'role' => 'required|in:' . implode(',', ShopRole::ROLES),
+            'role_id' => 'required|in:' . implode(',', $roles),
             'user_id' => 'required|exists:users,id'
         ];
     }

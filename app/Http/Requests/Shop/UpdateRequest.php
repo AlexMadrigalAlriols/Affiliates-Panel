@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
             'subdomain' => 'required|string|unique:shops,subdomain,'. $this->shop->id .',id,deleted_at,NULL',
             'description' => 'string|nullable|max:255',
             'currency_id' => 'required|exists:currencies,id',
-            'shop_logo' => 'nullable|image|mimes:jpg,png,jpg,svg|max:2048'
+            'shop_banner' => 'nullable|image|mimes:jpg,png,jpg,svg|max:2048'
         ];
     }
 }

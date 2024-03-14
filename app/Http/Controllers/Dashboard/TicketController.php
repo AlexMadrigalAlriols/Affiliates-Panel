@@ -11,19 +11,42 @@ use App\Models\Currency;
 use App\Models\Shop;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Traits\PermissionTrait;
 use App\UseCases\Tickets\StoreUseCase;
 
 class TicketController extends Controller
 {
-    public function ticketsList(Shop $shop)
+    use PermissionTrait;
+
+    private $permissionTitle = 'ticket_';
+
+    public function index(Shop $shop)
     {
+        $permission = $this->permissionTitle;
+        if($redirect = $this->hasPermission($permission . 'view', $shop)) {
+            return $redirect;
+        }
+
         $tickets = $shop->shopTicketHistory()->withTrashed()->get();
 
-        return view('dashboard.shop.panel.tickets.index', compact('shop', 'tickets'));
+        return view('dashboard.shop.panel.tickets.index', compact('shop', 'tickets', 'permission'));
     }
 
-    public function saveTicket(StoreRequest $request, Shop $shop, User $user)
+    public function create(Shop $shop, User $user)
     {
+        if($redirect = $this->hasPermission($this->permissionTitle . 'create', $shop)) {
+            return $redirect;
+        }
+
+        return view('dashboard.shop.panel.tickets.create', compact('shop', 'user'));
+    }
+
+    public function store(StoreRequest $request, Shop $shop, User $user)
+    {
+        if($redirect = $this->hasPermission($this->permissionTitle . 'create', $shop)) {
+            return $redirect;
+        }
+
         $useCase = new StoreUseCase(
             $shop,
             $user,
@@ -45,7 +68,10 @@ class TicketController extends Controller
     }
 
     public function returnTicket(Shop $shop, Ticket $ticket) {
-        // [TODO] Rest the points equal import
+        if($redirect = $this->hasPermission($this->permissionTitle . 'delete', $shop)) {
+            return $redirect;
+        }
+
         if ($shop->id === $ticket->shop->id && $ticket->delete()) {
             $success = UserLevelHelper::subtractExpAndLevel(
                 $shop,

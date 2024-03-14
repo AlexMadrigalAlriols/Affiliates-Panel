@@ -15,7 +15,13 @@
                             @method('PUT')
                             @csrf
                             <div class="row mb-3">
-                                <p class="h4">Your colours</p>
+                                <p class="h4 mb-4">
+                                    Your colours
+                                    <button class="btn btn-primary pull-right" data-bs-toggle="modal" data-bs-target="#assistantModal" type="button">
+                                        <i class='bx bx-color'></i>
+                                        Colour Assistant
+                                    </button>
+                                </p>
                                 <div class="col-md-2 col-sm-12 p-2">
                                     <label for="colorInput" class="form-label">Primary</label>
                                     <input type="color" id="colorInput" value="{{ $shop->config['colors']['primary'] ?? "#000000" }}"
@@ -47,20 +53,20 @@
                                         class="form-control form-control-color" name="colors[button_text]">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <select id="fontSelector" class="form-select mb-3 font-selector">
-                                        <option value="Arial, sans-serif" data-font="Arial, sans-serif">Arial</option>
-                                        <option value="Times New Roman, Times, serif" data-font="Times New Roman, Times, serif">Times New Roman</option>
-                                        <option value="Verdana, Geneva, sans-serif" data-font="Verdana, Geneva, sans-serif">Verdana</option>
-                                        <!-- Agrega más opciones según sea necesario -->
-                                      </select>
-                                </div>
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="image-input" class="form-label">Logo</label>
-                                <input type="file" class="form-control" id="image-input">
+                            <div class="row">
+                                <p class="h4 mb-4 mt-3">
+                                    Images
+                                </p>
+                                <div class="col-md-3 col-sm-12 mb-3">
+                                    <label for="shop_banner">Actual Logo:</label>
+                                    <img src="{{ isset($shop->config['shop_logo']) ? asset($shop->config['shop_logo']) : asset('img/errors/404.png') }}" alt="shop_logo" id="shop_logo" width="200px">
+                                </div>
+                                <div class="col-md-9 col-sm-12 mb-3">
+                                    <label for="bannerDropzone">Upload Logo:</label>
+                                    <div class="dropzone" id="logoDropzone">
+                                    </div>
+                                </div>
                             </div>
 
                             <button class="btn btn-success" style="float: right;" type="submit"><i class='bx bx-save'></i>
@@ -71,4 +77,58 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="assistantModal" tabindex="-1" aria-labelledby="assitantModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="assitantModalLabel"><i class='bx bx-color'></i> Colour Assistant</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="POST">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 container text-center">
+                                <div class="p-2 me-5 d-inline-block">
+                                    <label for="colorInput" class="form-label text-start">Primary</label>
+                                    <input type="color" id="colorInput"
+                                    class="form-control form-control-color" name="colors[primary]">
+                                </div>
+                                <div class="p-2 d-inline-block">
+                                    <label for="colorInput" class="form-label">Secondary</label>
+                                    <input type="color" id="colorInput"
+                                        class="form-control form-control-color" name="colors[secondary]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="submitAssitant">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        Dropzone.autoDiscover = false;
+
+        $(document).ready(function() {
+            new Dropzone("#logoDropzone", {
+                url: "{{ route('dashboard.upload_file') }}", // Ruta donde manejarás la carga de archivos
+                paramName: "dropzone_image", // Nombre del campo de formulario para el archivo
+                maxFilesize: 2, // Tamaño máximo en MB
+                acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                addRemoveLinks: true,
+                uploadMultiple: false,
+                maxFiles: 1,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                }
+            });
+        });
+    </script>
 @endsection

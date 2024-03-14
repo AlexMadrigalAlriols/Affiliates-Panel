@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use PhpParser\Node\Stmt\Static_;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    const LENGTH_CODE = 6;
 
     /**
      * The attributes that are mass assignable.
@@ -66,10 +68,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function shopRoles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ShopRole::class);
+    }
+
     public function owned_shops(): \Illuminate\Database\Eloquent\Relations\hasManyThrough
     {
         return $this->hasManyThrough(Shop::class, ShopRole::class, 'user_id', 'id', 'id', 'shop_id')
-            ->whereIn('shop_roles.role', ShopRole::ROLES);
+            ->whereNotNull('shop_roles.role_id');
     }
 
     public function shops(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -77,9 +84,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Shop::class, 'users_shops', 'user_id', 'shop_id')->where('active', 1);
     }
 
-    public function paychecks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function vouchers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(PayCheck::class);
+        return $this->hasMany(Voucher::class);
     }
 
     public function getLevelOnShop(Shop $shop)
@@ -128,5 +135,17 @@ class User extends Authenticatable
         }
 
         return $percentage ?? 0;
+    }
+
+    public static function generateCode()
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < self::LENGTH_CODE; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
     }
 }

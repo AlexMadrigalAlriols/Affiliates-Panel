@@ -1,14 +1,16 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
-    --secondary-color:rgb(58, 29, 173)9;
+    --secondary-color: rgb(58, 29, 173) 9;
     --first-color: #4723d9;
     --first-color-light: #afa5d9;
     --white-color: #f7f6fb;
     --body-font: "Nunito", sans-serif;
     --normal-font-size: 1rem;
     --z-fixed: 100;
+    --black-color: #242424;
 }
 *,
 ::before,
@@ -21,6 +23,14 @@ body {
     font-size: var(--normal-font-size);
     transition: 0.5s;
     margin: calc(var(--header-height)) 0 0 0;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-image: linear-gradient(
+        to bottom,
+        var(--black-color),
+        #202020
+    ) !important;
 }
 .body-pd {
     padding-left: var(--nav-width);
@@ -148,6 +158,59 @@ body {
     background-color: grey;
 }
 
+.mobile-navbar {
+    display: none;
+    box-shadow: white 0px 0px 7px;
+}
+
+.mobile-bottom-navbar {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.mobile-top-navbar {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 50px;
+}
+
+.navbar-text {
+    font-size: 11px; /* Tamaño de fuente más pequeño */
+    word-wrap: break-word;
+}
+
+.navbar-brand.active,
+.navbar-brand.active .navbar-text,
+.navbar-brand:hover {
+    color: var(--first-color) !important;
+}
+
+.form-check-input {
+    width: 2.5em !important;
+    height: 1.5em;
+}
+
+.badge_count {
+    position: absolute;
+    top: -5px;
+    right: 0;
+    background-color: var(--first-color);
+    color: var(--white-color);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+
 /* PC */
 @media screen and (min-width: 768px) {
     body {
@@ -176,10 +239,15 @@ body {
 
 /* Phone */
 @media screen and (max-width: 768px) {
-    .height-100 {
-        height: calc(100vh - var(--header-height));
+    .desktop-navbar {
+        display: none;
     }
-    .header-pd {
-        padding-left: calc(var(--nav-width) + 156px);
+
+    .mobile-navbar {
+        display: block;
+    }
+
+    body {
+        margin: 4rem 0 3rem 0;
     }
 }

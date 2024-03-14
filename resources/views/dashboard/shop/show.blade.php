@@ -1,50 +1,53 @@
-@extends('layouts.dashboard', ['section' => $shop->name])
+@extends('layouts.dashboard', ['shop_name' => $shop->name, 'section' => 'rewards', 'header' => ['title' => $shop->name, 'return' => route('dashboard.main')]])
 @section('styles')
-    <style>
-        .container-fluid {
-            font-family: {{ $shop->config['font'] ?? 'Arial, sans-serif' }};
-        }
+<style>
+    .container-fluid {
+        font-family: {{ $shop->config['font'] ?? 'Arial, sans-serif' }};
+    }
 
-        .logo-container {
-            background-color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
-        }
+    .logo-container {
+        background-color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
+    }
 
-        .rewards-container {
-            background-color: {{ $shop->config['colors']['secondary'] ?? 'white' }};
-        }
+    .rewards-container {
+        background-color: {{ $shop->config['colors']['secondary'] ?? 'white' }};
+    }
 
-        .reward-card {
-            background-color: {{ $shop->config['colors']['reward_card'] ?? 'beige' }};
-        }
+    .reward-card {
+        background-color: {{ $shop->config['colors']['reward_card'] ?? 'beige' }};
+    }
 
-        .icon-reward.collected {
-            color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
-        }
+    .icon-reward.collected {
+        color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
+    }
 
-        .reward-list .h3,
-        .reward-list .reward-text {
-            color: {{ $shop->config['colors']['texts'] ?? 'white' }};
-        }
+    .reward-list .h3,
+    .reward-list .reward-text {
+        color: {{ $shop->config['colors']['texts'] ?? 'black' }};
+    }
 
-        .btn-qr {
-            color: {{ $shop->config['colors']['button_text'] ?? 'white' }};
-            background-color: {{ $shop->config['colors']['button'] ?? 'blue' }};
-        }
+    .btn-qr,
+    .btn-qr:hover,
+    .btn-primary,
+    .btn-primary:hover {
+        color: {{ $shop->config['colors']['button_text'] ?? 'white' }} !important;
+        background-color: {{ $shop->config['colors']['button'] ?? 'blue' }} !important;
+        border: 1px solid {{ $shop->config['colors']['button'] ?? 'blue' }};
+    }
 
-        .progress-bar {
-            background-color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
-        }
-    </style>
+    .progress-bar {
+        background-color: {{ $shop->config['colors']['primary'] ?? 'brown' }};
+    }
+</style>
 @endsection
 @section('content')
     <button class="btn btn-qr fixed-button" data-bs-toggle="modal" data-bs-target="#qrModal"><i
             class='bx bx-qr align-middle me-1'></i> Your QR</button>
 
     <div class="container-fluid">
-        <div class="logo-container p-5">
-            <a class="top-0 start-0 my-1 p-3 mx-2 text-black" href="{{ route('dashboard.main') }}" style="position: absolute; font-size: 34px; text-decoration: none;"><i class='bx bxs-chevron-left'></i></a>
-            <div class="col-sm-12 justify-content-center">
-                <img src="https://dr8h81twidjpw.cloudfront.net/uploads/popup_setting/popup_logo_img/No_Background_2006300656.png"
+        <div class="logo-container p-4 position-relative">
+            <div class="col-sm-12 justify-content-center text-center">
+                <img src="{{ $shop->config['shop_logo'] ? asset($shop->config['shop_logo']) : asset('img/errors/404.png') }}"
                     alt="shop_logo" class="img-fluid px-4 shop_logo">
             </div>
         </div>

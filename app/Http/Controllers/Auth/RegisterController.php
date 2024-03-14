@@ -49,8 +49,21 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'first_name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'last_name'     => ['required', 'string', 'max:255'],
+            'phone'     => ['required', 'numeric', 'unique:users,phone'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'email.required' => __('global.auth.invalid_field', ['field' => __('cruds.users.fields.email_long')]),
+            'email.email' => __('global.auth.invalid_field', ['field' => __('cruds.users.fields.email_long')]),
+            'email.max' => __('global.auth.invalid_field', ['field' => __('cruds.users.fields.email_long')]),
+            'email.unique' => __('global.auth.field_on_use', ['field' => __('cruds.users.fields.email_long')]),
+            'phone.required' => __('global.auth.invalid_field', ['field' => __('cruds.users.fields.phone')]),
+            'phone.numeric' => __('global.auth.invalid_field', ['field' => __('cruds.users.fields.phone')]),
+            'phone.unique' => __('global.auth.field_on_use', ['field' => __('cruds.users.fields.phone')]),
+            'password.required' => __('global.auth.password_error'),
+            'password.min' => __('global.auth.password_error'),
+            'password.confirmed' => __('global.auth.password_not_match')
         ]);
     }
 
@@ -65,21 +78,10 @@ class RegisterController extends Controller
         return User::create([
             'first_name'    => $data['first_name'],
             'last_name'    => $data['last_name'],
+            'phone'    => $data['phone'],
             'email'    => $data['email'],
-            'code'  => $this->generateRandomString(6),
+            'code'  => User::generateCode(),
             'password' => Hash::make($data['password']),
         ]);
-    }
-
-    private function generateRandomString($length)
-    {
-        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = '';
-
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, strlen($characters) - 1)];
-        }
-
-        return $randomString;
     }
 }

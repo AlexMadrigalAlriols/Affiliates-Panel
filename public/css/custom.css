@@ -1,62 +1,161 @@
-body, html {
-    height: 100%;
-    overflow-y: hidden !important;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
+:root {
+    --header-height: 3rem;
+    --nav-width: 68px;
+    --secondary-color: rgb(58, 29, 173);
+    --first-color: #4723d9;
+    --first-color-light: #afa5d9;
+    --white-color: #f7f6fb;
+    --body-font: "Nunito", sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100;
+    --black-color: #242424;
+    --red-color: rgb(220, 53, 69);
 }
-.background-radial-gradient {
-    background-color: hsl(218, 41%, 15%);
-    background-image: radial-gradient(650px circle at 0% 0%,
-        hsl(218, 41%, 35%) 15%,
-        hsl(218, 41%, 30%) 35%,
-        hsl(218, 41%, 20%) 75%,
-        hsl(218, 41%, 19%) 80%,
-        transparent 100%),
-        radial-gradient(1250px circle at 100% 100%,
-        hsl(218, 41%, 45%) 15%,
-        hsl(218, 41%, 30%) 35%,
-        hsl(218, 41%, 20%) 75%,
-        hsl(218, 41%, 19%) 80%,
-        transparent 100%);
+
+body,
+html {
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.login-container {
+    min-height: 100vh;
+    height: fit-content !important;
+    background-image: linear-gradient(to bottom, #242424, #313131) !important;
+}
+
+.header-card {
+    height: 16rem;
+    background-color: whitesmoke;
+    color: black;
+    border-bottom-left-radius: 15%;
+    border-bottom-right-radius: 15%;
+    box-shadow: white 0px 0px 10px;
+}
+
+.background-container {
+    position: relative;
+    background: #ada996; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #eaeaea,
+        #dbdbdb,
+        #f2f2f2,
+        #ada996
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #eaeaea,
+        #dbdbdb,
+        #f2f2f2,
+        #dbdad4
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    z-index: -1;
 }
 
 #radius-shape-1 {
     height: 220px;
     width: 220px;
-    top: -60px;
-    left: -130px;
-    background: radial-gradient(#44006b, #ad1fff);
+    top: -50px;
+    left: -110px;
+    background: radial-gradient(#44006b, var(--first-color));
     overflow: hidden;
 }
 
 #radius-shape-2 {
     border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
-    bottom: -60px;
+    bottom: 5px;
     right: -110px;
     width: 300px;
     height: 300px;
-    background: radial-gradient(#44006b, #ad1fff);
+    background: radial-gradient(#44006b, var(--first-color));
     overflow: hidden;
 }
 
-.bg-glass {
-    background-color: hsla(0, 0%, 19%, 0.9) !important;
-    backdrop-filter: saturate(200%) blur(25px);
+.btn-primary {
+    background-color: var(--first-color) !important;
+    border-color: var(--first-color) !important;
+    padding: 0.75rem;
 }
 
-.background-radial-gradient {
-    height: 100% !important;
-    min-height: 100% !important;
+.btn-primary:hover {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    box-shadow: var(--secondary-color) 0px 0px 10px;
 }
 
-.form-floating input {
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro medio transparente */
-    color: white; /* Cambia el color del texto si es necesario */
-    border: 1px solid white; /* Añadir un borde blanco opcional */
+.btn-white {
+    background-color: var(--white-color);
+    padding: 0.45rem;
 }
 
-.divider:after,
-.divider:before {
-    content: "";
+.btn-white:hover {
+    color: black !important;
+    background-color: rgb(250, 249, 249) !important;
+    box-shadow: white 0px 0px 10px;
+    border: 0;
+}
+
+@media (max-width: 760px) {
+    .background-container {
+        display: none;
+    }
+}
+
+.active {
+    border-color: var(--first-color) !important;
+}
+
+.auth-input {
+    position: relative;
+}
+
+.auth-input input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+}
+.auth-input label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    pointer-events: none;
+    transition: 0.5s;
+}
+.auth-input.is-invalid input {
+    border-bottom: 1px solid var(--red-color);
+}
+.auth-input.is-invalid label {
+    color: var(--red-color) !important;
+}
+
+.auth-input input:focus ~ label,
+.auth-input input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: var(--first-color-light);
+    font-size: 12px;
+}
+
+.hr-text {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+}
+
+hr {
     flex: 1;
-    height: 1px;
-    background: #eee;
 }

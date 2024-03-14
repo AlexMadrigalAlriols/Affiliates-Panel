@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Paychecks;
+namespace App\Http\Requests\Vouchers;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +22,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'import' => 'required|numeric|gt:0.0',
+            'reward' => 'required|string',
             'expiration_date' => 'nullable|date'
         ];
     }

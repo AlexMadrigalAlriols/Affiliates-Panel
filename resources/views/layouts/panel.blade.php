@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
@@ -47,26 +48,41 @@
                         <i class='bx bx-home-alt nav_icon'></i>
                         <span class="nav_name">Overview</span>
                     </a>
-                    <a href="{{ route('dashboard.shop.panel.customers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'users' ? 'active' : ''}}">
-                        <i class='bx bx-user nav_icon'></i>
-                        <span class="nav_name">{{ __('cruds.users.title') }}</span>
-                    </a>
-                    <a href="{{ route('dashboard.shop.panel.paychecks', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Paychecks' ? 'active' : ''}}">
-                        <i class='bx bx-money-withdraw nav_icon'></i>
-                        <span class="nav_name">{{ __('cruds.paychecks.title') }}</span>
-                    </a>
-                    <a href="{{ route('dashboard.shop.panel.tickets', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Tickets' ? 'active' : ''}}">
-                        <i class='bx bx-receipt nav_icon'></i>
-                        <span class="nav_name">{{__('cruds.tickets.title_long')}}</span>
-                    </a>
-                    <a href="{{ route('dashboard.shop.panel.messages', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Messages' ? 'active' : ''}}">
-                        <i class='bx bx-mail-send nav_icon' ></i>
-                        <span class="nav_name">Announces</span>
-                    </a>
-                    <a href="{{ route('dashboard.shop.panel.configuration', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Configuration' ? 'active' : ''}}">
-                        <i class='bx bx-cog nav_icon'></i>
-                        <span class="nav_name">Configuration</span>
-                    </a>
+
+                    @can('hasPermissionInShop', ['client_view', $shop->id])
+                        <a href="{{ route('dashboard.shop.panel.customers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'users' ? 'active' : ''}}">
+                            <i class='bx bx-user nav_icon'></i>
+                            <span class="nav_name">{{ __('cruds.users.title') }}</span>
+                        </a>
+                    @endcan
+
+                    @can('hasPermissionInShop', ['voucher_view', $shop->id])
+                        <a href="{{ route('dashboard.shop.panel.vouchers', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Vouchers' ? 'active' : ''}}">
+                            <i class='bx bx-money-withdraw nav_icon'></i>
+                            <span class="nav_name">{{ __('cruds.vouchers.title') }}</span>
+                        </a>
+                    @endcan
+
+                    @can('hasPermissionInShop', ['ticket_view', $shop->id])
+                        <a href="{{ route('dashboard.shop.panel.tickets', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Tickets' ? 'active' : ''}}">
+                            <i class='bx bx-receipt nav_icon'></i>
+                            <span class="nav_name">{{__('cruds.tickets.title_long')}}</span>
+                        </a>
+                    @endcan
+
+                    @can('hasPermissionInShop', ['announce_view', $shop->id])
+                        <a href="{{ route('dashboard.shop.panel.messages', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Messages' ? 'active' : ''}}">
+                            <i class='bx bx-mail-send nav_icon' ></i>
+                            <span class="nav_name">Announces</span>
+                        </a>
+                    @endcan
+
+                    @can('hasPermissionInShop', ['configuration_view', $shop->id])
+                        <a href="{{ route('dashboard.shop.panel.configuration', ['shop' => $shop->subdomain]) }}" class="nav_link {{ $section == 'Configuration' ? 'active' : ''}}">
+                            <i class='bx bx-cog nav_icon'></i>
+                            <span class="nav_name">Configuration</span>
+                        </a>
+                    @endcan
                 </div>
             </div>
         </nav>
@@ -83,6 +99,7 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 <script src="{{ asset('js/select2.full.min.js')}}"></script>
 <script src="{{ asset('js/main.js')}}"></script>
 @yield('scripts')

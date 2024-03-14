@@ -11,6 +11,7 @@ use App\Http\Controllers\Dashboard\ShopLogsController;
 use App\Http\Controllers\Dashboard\ShopRolesController;
 use App\Http\Controllers\Dashboard\TicketController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\VouchersController;
 use App\Http\Controllers\TranslationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,13 +40,20 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Logged Dashboard
 Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth']], static function () {
     Route::get('/', [DashboardController::class, 'index'])->name('main');
-    Route::get('/paychecks', [DashboardController::class, 'paychecksIndex'])->name('paychecks');
+    Route::get('/explore', [DashboardController::class, 'exploreIndex'])->name('explore.index');
+    Route::get('/wallet', [VouchersController::class, 'index'])->name('wallet.index');
+    Route::get('/wallet/{voucher}', [VouchersController::class, 'show'])->name('wallet.show');
+
+    Route::get('/settings', [DashboardController::class, 'settings'])->name('settings.index');
+    Route::get('/settings/{section}', [DashboardController::class, 'settingsIndex'])->name('settings.main.index');
+    Route::post('/upload', [DashboardController::class, 'uploadFile'])->name('upload_file');
 
     //Shops
     Route::resource('shop', ShopController::class)->only(['show']);
     Route::get('/shop/{shop}/generate-qr', [ShopController::class, 'generateShopQr'])->name('shop.generate.qr');
     Route::get('/s/{shop}/scan-qr', [UserController::class, 'scanQr'])->name('user.scan.shop.qr');
     Route::get('/s/{shop}/unmark', [UserController::class, 'unmarkShop'])->name('user.shop.unmark');
+    Route::post('/search-shop', [DashboardController::class, 'searchShop'])->name('search.shop');
 
     Route::middleware('checkOwnedShop')->group(function () {
         Route::get('/s/{shop}/panel', [ShopController::class, 'overview'])->name('shop.panel.overview');
@@ -62,22 +70,25 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['a
         Route::get('/s/{shop}/configuration/roles', [ShopRolesController::class, 'index'])->name('shop.panel.configuration.roles.index');
         Route::get('/s/{shop}/configuration/logs', [ShopLogsController::class, 'index'])->name('shop.panel.configuration.logs.index');
         Route::get('/s/{shop}/configuration/appearance', [ShopController::class, 'shopAppearance'])->name('shop.panel.configuration.appearance.index');
+        Route::post('/s/{shop}/generate-colours', [ShopController::class, 'generateColours'])->name('shop.generateColours');
 
         // Ticket System
-        Route::get('/s/{shop}/tickets', [TicketController::class, 'ticketsList'])->name('shop.panel.tickets');
+        Route::get('/s/{shop}/tickets', [TicketController::class, 'index'])->name('shop.panel.tickets');
         Route::get('/s/{shop}/tickets/{ticket}', [TicketController::class, 'returnTicket'])
             ->name('shop.panel.tickets.return');
-        Route::get('/s/{shop}/{user}/read-qr', [ShopController::class, 'scanQrTicket'])->name('user.scan.qr');
-        Route::post('/s/{shop}/{user}/read-qr', [TicketController::class, 'saveTicket'])->name('shop.saveTicket');
+        Route::get('/s/{shop}/{user}/read-qr', [TicketController::class, 'create'])->name('user.scan.qr');
+        Route::post('/s/{shop}/{user}/read-qr', [TicketController::class, 'store'])->name('shop.saveTicket');
 
         // Paycheck System
-        Route::get('/s/{shop}/paychecks', [PaychecksController::class, 'list'])->name('shop.panel.paychecks');
-        Route::get('/s/{shop}/{user}/pay-check', [PaychecksController::class, 'create'])
-            ->name('shop.panel.paychecks.create');
-        Route::post('/s/{shop}/{user}/pay-check', [PaychecksController::class, 'store'])
-            ->name('shop.panel.paychecks.store');
-        Route::get('/s/{shop}/pay-check/{paycheck}', [PaychecksController::class, 'destroy'])
-            ->name('shop.panel.paychecks.destroy');
+        Route::get('/s/{shop}/vouchers', [VouchersController::class, 'list'])->name('shop.panel.vouchers');
+        Route::get('/s/{shop}/{user}/voucher', [VouchersController::class, 'create'])
+            ->name('shop.panel.voucher.create');
+        Route::post('/s/{shop}/{user}/voucher', [VouchersController::class, 'store'])
+            ->name('shop.panel.voucher.store');
+        Route::get('/s/{shop}/voucher/{voucher}/use', [VouchersController::class, 'use'])
+            ->name('shop.panel.voucher.use');
+        Route::get('/s/{shop}/voucher/{voucher}/generate-qr', [VouchersController::class, 'generateShopQr'])
+            ->name('shop.voucher.generate-qr');
 
         // Messages
         Route::get('/s/{shop}/messages', [MessagesController::class, 'index'])->name('shop.panel.messages');
@@ -85,7 +96,7 @@ Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['a
         // Ajax
         Route::post('shop_roles/{shop}', [ShopRolesController::class, 'store'])->name('shop_roles.store');
         Route::get('shop_roles/{shop}/create', [ShopRolesController::class, 'create'])->name('shop_roles.create');
-        Route::delete('shop_roles/{shop}', [ShopRolesController::class, 'destroy'])->name('shop_roles.destroy');
+        Route::delete('shop_roles/{shopRole}', [ShopRolesController::class, 'destroy'])->name('shop_roles.destroy');
         Route::get('shop_roles/{shop}/edit/{shopRole}', [ShopRolesController::class, 'edit'])->name('shop_roles.edit');
         Route::put('shop_roles/{shop}/edit/{shopRole}', [ShopRolesController::class, 'update'])->name('shop_roles.update');
         Route::get('shop_levels/{shop}', [ShopLevelsController::class, 'index'])->name('shop_levels.index');

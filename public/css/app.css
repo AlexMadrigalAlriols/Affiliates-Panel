@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
-    --secondary-color:rgb(58, 29, 173)9;
+    --secondary-dark-color: rgb(58, 29, 173);
     --first-color: #4723d9;
     --first-color-light: #afa5d9;
     --white-color: #f7f6fb;
@@ -11,8 +13,15 @@
     --black-color: #242424;
 }
 
+html {
+    height: 100%;
+}
+
 body {
-    background-color: var(--black-color) !important;
+    background-image: linear-gradient(to bottom, #242424, #313131) !important;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .content {
@@ -26,8 +35,14 @@ body {
 /* Shop Cards */
 
 .shop-card {
-    width: 20rem;
+    width: 23rem;
     margin: 1rem;
+    padding: 0;
+    border-radius: 15px;
+    box-shadow: white 0px 0px 7px;
+    min-height: 8rem;
+    max-height: 8rem;
+    position: relative;
 }
 
 .img-shop-card {
@@ -52,7 +67,7 @@ body {
 
 .fixed-button {
     position: fixed;
-    bottom: 20px;
+    bottom: 6rem;
     right: 20px;
     z-index: 1000;
 }
@@ -184,11 +199,11 @@ table
 }
 
 /* Shop show */
-.content:has(>.main > .container-fluid .logo-container) {
+.content:has(> .main > .container-fluid .logo-container) {
     padding: 0 !important;
 }
 
-.container-fluid:has(>.rewards-container) {
+.container-fluid:has(> .rewards-container) {
     max-width: 450px !important;
 }
 
@@ -225,7 +240,10 @@ table
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 2.6rem); /* Crea un grid con columnas automáticas que se ajustan al tamaño del contenedor */
+    grid-template-columns: repeat(
+        auto-fit,
+        2.6rem
+    ); /* Crea un grid con columnas automáticas que se ajustan al tamaño del contenedor */
     gap: 25px; /* Espacio entre los elementos */
     justify-content: center; /* Centra los elementos horizontalmente en el grid */
     align-items: center; /* Centra los elementos verticalmente en el grid */
@@ -248,4 +266,106 @@ table
 
 .dt-row {
     margin-bottom: 1.5rem !important;
+}
+
+.search-container {
+    position: relative;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 6px white;
+}
+
+.search-input {
+    width: 100%; /* Ancho del campo de búsqueda */
+    padding: 11px 35px 11px 50px !important; /* Añade relleno alrededor del texto */
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #242424;
+    font-size: 32px;
+}
+
+.btn-favorite {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: -0.5rem;
+    margin-right: -0.5rem;
+    z-index: 999;
+    background-color: var(--first-color);
+    color: var(--white-color);
+    padding-left: 0.90rem;
+    padding-right: 0.90rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    opacity: 0.95;
+}
+
+.btn-favorite:hover {
+    color: var(--white-color);
+    opacity: 1;
+}
+
+.btn-search {
+    background-color: var(--first-color) !important;
+    color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 0 8px var(--first-color);
+}
+
+.btn-primary {
+    background-color: var(--first-color) !important;
+    color: white !important;
+    border: 1px solid var(--first-color) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--first-color) !important;
+    color: white;
+    border: 1px solid var(--first-color);
+}
+
+.btn-tab {
+    background-color: var(--white-color);
+    color: black;
+    border: 1px solid var(--white-color);
+}
+
+.header-settings {
+    border-radius: 15px;
+    box-shadow: 0 0 6px var(--white-color);
+}
+
+.btn-setting {
+    background-color: var(--white-color);
+    color: #242424;
+    box-shadow: 0 0 8px var(--white-color);
+}
+
+.btn-setting:hover {
+    background-color: var(--first-color) !important;
+    color: white !important;
+    border: 1px solid var(--first-color) !important;
+    box-shadow: 0 0 8px var(--first-color) !important;
+}
+
+.profile-img-header {
+    margin-top: -2rem;
+    border-color: #242424;
+    border-width: 2px;
+    border-style: solid;
 }

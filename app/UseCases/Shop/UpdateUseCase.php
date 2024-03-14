@@ -25,6 +25,11 @@ class UpdateUseCase extends UseCase
         $this->shop->subdomain = $this->subdomain;
         $this->shop->description = $this->description;
         $this->shop->currency_id = $this->currency->id;
+
+        if($this->file) {
+            $this->data['banner_img'] = $this->file;
+        }
+
         $this->shop->config = array_merge($this->shop->config, $this->data);
         $this->shop->save();
 

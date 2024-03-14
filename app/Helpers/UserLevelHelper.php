@@ -25,12 +25,18 @@ class UserLevelHelper
 
         if($shop->type === ShopLevel::TYPES['loop']) {
             $user_level->exp_progress += intval($import);
+            $times_for_reward = $shop->config['times_for_reward'] ?? 5;
+            $data = isset($user_level->data['times_collected']) ? $user_level->data : ['times_collected' => 0];
 
-            if ($user_level->exp_progress > $shop->config['times_for_reward'] ?? 5) {
-                $user_level->exp_progress = $user_level->exp_progress - ($shop->config['times_for_reward'] ?? 5);
-                $user_level->data['times_collected'] = ($user_level->data['times_collected'] ?? 0) + 1;
+            if ($user_level->exp_progress >= $times_for_reward) {
+                do {
+                    VoucherHelper::generateVoucher($shop, $user, $shop->config['loop_reward'] ?? 'no-reward');
+                    $data['times_collected'] = intval($data['times_collected']) + 1;
+                    $user_level->exp_progress -= $times_for_reward;
+                } while ($user_level->exp_progress > $times_for_reward);
             }
 
+            $user_level->data = $data;
             return $user_level->save();
         }
 

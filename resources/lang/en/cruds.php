@@ -2,26 +2,31 @@
 
 return [
     'search' => [
-        'title' => 'Search',
-        'title_singular' => 'Search',
+        'title' => 'Explore',
+        'title_singular' => 'Explore',
     ],
     'dashboard' => [
         'title' => 'Dashboard',
         'title_singular' => 'Dashboard',
     ],
-    'paychecks' => [
-        'title' => 'Paychecks',
-        'title_singular' => 'Paycheck',
+    'rewards' => [
+        'title' => 'Rewards',
+        'title_singular' => 'Reward',
+    ],
+    'vouchers' => [
+        'title' => 'Vouchers',
+        'title_singular' => 'Voucher',
+        'title_wallet' => 'My wallet',
         'fields' => [
             'id' => 'ID',
             'user' => 'Customer',
             'shop' => 'Shop',
-            'import' => 'Import',
+            'reward' => 'Reward',
             'expiration_date' => 'Expiration Date'
         ]
     ],
-    'create_paycheck' => [
-        'title' => 'Create Paycheck'
+    'create_voucher' => [
+        'title' => 'Create Voucher'
     ],
     'announces' => [
         'title' => 'Mensajes',
@@ -37,10 +42,13 @@ return [
         'fields' => [
             'id' => 'ID',
             'name' => 'Name',
+            'last_name' => 'Last Name',
             'email' => 'Email',
+            'email_long' => 'Email Address',
             'phone' => 'Phone',
             'level' => 'Level',
             'code' => 'Code',
+            'password' => 'Password'
         ]
     ],
     'tickets' => [

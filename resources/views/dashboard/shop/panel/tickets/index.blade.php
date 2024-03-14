@@ -9,12 +9,14 @@
                         {{ __('cruds.tickets.title_long') }}
                     </span>
 
-                    <div class="pull-right">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userModal">
-                            <i class='bx bx-plus'></i>
-                            {{ __('global.create')}} {{ __('cruds.tickets.title_singular') }}
-                        </button>
-                    </div>
+                    @can('hasPermissionInShop', [$permission . 'create', $shop->id])
+                        <div class="pull-right">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <i class='bx bx-plus'></i>
+                                {{ __('global.create')}} {{ __('cruds.tickets.title_singular') }}
+                            </button>
+                        </div>
+                    @endcan
                 </div>
 
                 <table id="tickets-datatable" class="table table-striped table-hover">
@@ -37,10 +39,12 @@
                                 <td>{{ $ticket->created_at }}</td>
                                 <td>
                                     @if (!$ticket->trashed())
-                                        <a class="btn btn-danger"
-                                            href="{{ route('dashboard.shop.panel.tickets.return', ['shop' => $shop->subdomain, 'ticket' => $ticket->id]) }}">
-                                            <i class='bx bx-x-circle align-middle'></i>
-                                        </a>
+                                        @can('hasPermissionInShop', [$permission . 'delete', $shop->id])
+                                            <a class="btn btn-danger"
+                                                href="{{ route('dashboard.shop.panel.tickets.return', ['shop' => $shop->subdomain, 'ticket' => $ticket->id]) }}">
+                                                <i class='bx bx-x-circle align-middle'></i>
+                                            </a>
+                                        @endcan
                                     @else
                                         <span class="badge rounded-pill text-bg-danger">{{ __('cruds.tickets.fields.returned') }}</span>
                                     @endif

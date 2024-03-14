@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     public function scanQr(Shop $shop) {
         $user = Auth::user();
-        $user->shops->syncWithoutDetaching($shop->id);
+        $user->shops()->syncWithoutDetaching($shop->id);
 
         toast('Sucess Entered', 'success');
 

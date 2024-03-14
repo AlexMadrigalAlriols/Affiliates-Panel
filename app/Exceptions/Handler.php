@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\LogHelper;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -24,7 +25,23 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            LogHelper::generateLog(
+                $e->getMessage(),
+                auth()?->user(),
+                null,
+                'no-type',
+                'error'
+            );
         });
+    }
+
+    function render($request, Throwable $exception)
+    {
+        if ($this->isHttpException($exception)) {
+            if ($exception->getStatusCode() == 404) {
+                return response()->view('errors.404', [], 404);
+            }
+        }
+        return parent::render($request, $exception);
     }
 }

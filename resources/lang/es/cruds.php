@@ -2,34 +2,39 @@
 
 return [
     'search' => [
-        'title' => 'Buscar',
-        'title_singular' => 'Buscar',
+        'title' => 'Explorar',
+        'title_singular' => 'Explorar',
     ],
     'dashboard' => [
         'title' => 'Tablero',
         'title_singular' => 'Tablero',
     ],
-    'paychecks' => [
-        'title' => 'Cheques Regalo',
-        'title_singular' => 'Cheque Regalo',
+    'rewards' => [
+        'title' => 'Recompensas',
+        'title_singular' => 'Recompensa',
+    ],
+    'vouchers' => [
+        'title' => 'Cupónes',
+        'title_singular' => 'Cupón',
+        'title_wallet' => 'Mi billetera',
         'fields' => [
             'id' => 'ID',
             'user' => 'Cliente',
             'shop' => 'Tienda',
-            'import' => 'Importe',
+            'reward' => 'Recompensa',
             'expiration_date' => 'Fecha de Expiración'
         ]
     ],
-    'create_paycheck' => [
-        'title' => 'Crear Cheque Regalo'
+    'create_voucher' => [
+        'title' => 'Crear Cupón'
     ],
     'announces' => [
         'title' => 'Mensajes',
         'title_singular' => 'Mensaje',
     ],
     'settings' => [
-        'title' => 'Configuración',
-        'title_singular' => 'Configuración',
+        'title' => 'Ajustes',
+        'title_singular' => 'Ajustes',
     ],
     'users' => [
         'title' => 'Clientes',
@@ -37,10 +42,13 @@ return [
         'fields' => [
             'id' => 'ID',
             'name' => 'Nombre',
+            'last_name' => 'Apellidos',
             'email' => 'Email',
+            'email_long' => 'Correo Electrónico',
             'phone' => 'Teléfono',
             'level' => 'Nivel',
             'code' => 'Código',
+            'password' => 'Contraseña'
         ]
     ],
     'tickets' => [

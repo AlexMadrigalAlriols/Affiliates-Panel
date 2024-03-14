@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ShopLog extends Model
+class Log extends Model
 {
     use HasFactory;
 
-    const TYPES = ['delete', 'create', 'update', 'no-type'];
+    const TYPES = ['error', 'info', 'warning'];
+    const MESSAGE_TYPE = ['delete', 'create', 'update', 'no-type'];
 
     protected $fillable = [
         'type',
+        'message_type',
         'message',
         'user_id',
         'shop_id',

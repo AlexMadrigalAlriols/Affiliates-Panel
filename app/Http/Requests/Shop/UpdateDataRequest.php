@@ -22,6 +22,7 @@ class UpdateDataRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'shop_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'colors' => 'required|array',
             'colors.primary' => 'required|string',
             'colors.secondary' => 'required|string',
