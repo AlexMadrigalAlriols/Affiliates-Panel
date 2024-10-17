@@ -17,7 +17,7 @@ Con ello tambien puede colocar recompensas que recibira el usuario al llegar a c
 
 - **Framework**: Laravel
 - **Base de Datos**: MySQL
-- **Frontend**: Blade Templates (Laravel), con personalización de estilos para cada empresa
+- **Frontend**: Blade Templates (Laravel) y Vue para formularios reactivos
 - **Autenticación**: JWT
 
 ## 🎯 Objetivo
